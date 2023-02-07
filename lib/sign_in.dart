@@ -2,12 +2,11 @@ import 'package:dao/sign_up.dart';
 import 'package:dao/utils/color_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import './reusable_widgets/reusable_widget.dart';
-import 'home.dart';
+import 'home/home.dart';
 
 class SignInScreen extends StatefulWidget {
-  // const SignInScreen({super.key});
+  const SignInScreen({super.key});
 
   @override
   State<SignInScreen> createState() => _MyWidgetState();
@@ -62,8 +61,12 @@ class _MyWidgetState extends State<SignInScreen> {
                                         builder: (context) => HomeScreen()),
                                   ),
                                 })
-                            .onError((error, stackTrace) => {})
+                            .onError((error, stackTrace) => {
+                                  // ignore: avoid_print
+                                  // print("error${error.toString()}")
+                                })
                       }),
+              // This is Signuprow blow the login btn..
               signUpOption()
             ]),
           ),
@@ -72,6 +75,7 @@ class _MyWidgetState extends State<SignInScreen> {
     );
   }
 
+// --------------------------- Row after the login btn-----------------------------------------
   Row signUpOption() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
