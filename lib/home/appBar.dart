@@ -9,7 +9,6 @@ class AppBarExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Scaffold(),
         AppBar(
           title: Text('LearningDAO'),
         )

@@ -16,6 +16,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+//  In This is way we declare variable in dart and can use anywhere we want......
+  static const String _title = 'Learning DAO';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,11 +25,11 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.blue,
         centerTitle: true,
         elevation: 7,
-        title: Text('LearningDAO'),
+        title: const Text(_title),
         actions: <Widget>[
           IconButton(
             icon: Icon(
-              Icons.settings,
+              Icons.document_scanner,
               color: Colors.white,
             ),
             onPressed: () {
@@ -36,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      // -----------------------appbar end---------------------------------
+      // -----------------------Appbar end---------------------------------
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
