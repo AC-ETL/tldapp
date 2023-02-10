@@ -1,7 +1,10 @@
+import 'package:dao/Wigets/carsuol.dart';
 import 'package:dao/Wigets/sessions.dart';
 import 'package:dao/Wigets/user_profile.dart';
-import 'package:dao/home/home.dart';
+import 'package:dao/Screens/home_Screen.dart';
+import 'package:dao/sign_in.dart';
 import 'package:flutter/material.dart';
+import './carsuol.dart';
 
 class AppDrawer extends StatelessWidget {
   final String imgurl =
@@ -70,7 +73,7 @@ class AppDrawer extends StatelessWidget {
               onTap: () => {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
                 ),
               },
             ),
@@ -93,7 +96,12 @@ class AppDrawer extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.update),
               title: const Text('Updates'),
-              onTap: () => {print('UpdatesClicked')},
+              onTap: () => {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CustomCarouselFB2()))
+              },
             ),
             ListTile(
               leading: const Icon(Icons.notification_add_outlined),
@@ -107,6 +115,16 @@ class AppDrawer extends StatelessWidget {
               leading: const Icon(Icons.settings_outlined),
               title: const Text('Settings'),
               onTap: () => {print('Settings')},
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout_outlined),
+              title: const Text('Logout'),
+              onTap: () => {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SignInScreen()))
+              },
             ),
           ],
         ),
