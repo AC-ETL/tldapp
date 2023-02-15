@@ -1,4 +1,8 @@
+import 'dart:ffi';
+
+import 'package:dao/Wigets/size_Config.dart';
 import 'package:flutter/material.dart';
+import '../Wigets/app_style.dart';
 
 Image logoWidget(String imageName) {
   return Image.asset(
@@ -9,6 +13,7 @@ Image logoWidget(String imageName) {
     color: Colors.white,
   );
 }
+
 // Text field reuseable...................
 TextField reusableTextField(String text, IconData icon, bool isPasswordType,
     TextEditingController controller) {
@@ -66,4 +71,114 @@ Container firebaseUIButton(BuildContext context, bool islogin, Function onTap) {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
     ),
   );
+}
+
+//  Outline find mentor buttons......
+OutlinedButton findButton(String text) {
+  return OutlinedButton(
+    onPressed: () {
+      print('Find Mentors.......');
+    },
+    style: ButtonStyle(
+      shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))),
+    ),
+    child: Text(
+      '${text}',
+      style: TextStyle(fontSize: 10),
+    ),
+  );
+}
+//  Skills Tag
+
+Row skillTag(String imurl, String name) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Container(
+        width: 120,
+        height: 50,
+        child: Card(
+            elevation: 1,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                width: 0.5,
+                color: kborderblue,
+              ),
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 7),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                      radius: 15,
+                      backgroundColor: kwhite,
+                      backgroundImage: AssetImage(imurl)),
+                  SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    name,
+                    style: TextStyle(fontWeight: FontWeight.w300),
+                  )
+                ],
+              ),
+            )),
+      ),
+    ],
+  );
+}
+
+//  this widget is column of upcomming sessions
+Column upCommingSessionsWidget(
+    String imgurl, String title, String mentorname, String mentorimgurl) {
+  return Column(children: [
+    ClipRRect(
+      borderRadius: BorderRadius.circular(kBorderRadus),
+      child: Image.asset(imgurl),
+    ),
+    Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            '200+Attendess',
+            style: TextStyle(fontSize: 10),
+          ),
+          Text(
+            '2023/02/14 12;23PM',
+            style: TextStyle(fontSize: 10),
+          )
+        ],
+      ),
+    ),
+    Padding(
+      padding: const EdgeInsets.only(right: 120),
+      child: Text(title),
+    ),
+    SizedBox(
+      height: 15,
+    ),
+    Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: CircleAvatar(
+            radius: 15,
+            backgroundColor: kwhite,
+            backgroundImage: AssetImage(mentorimgurl),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8),
+          child: Text(
+            mentorname,
+            style: const TextStyle(fontSize: 10),
+          ),
+        )
+      ],
+    )
+  ]);
 }

@@ -1,9 +1,9 @@
-import 'package:dao/sign_up.dart';
+import 'package:dao/Screens/sign_up.dart';
 import 'package:dao/utils/color_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import './reusable_widgets/reusable_widget.dart';
-import 'Screens/home_Screen.dart';
+import '../reusable_widgets/reusable_widget.dart';
+import 'home_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -23,9 +23,9 @@ class _MyWidgetState extends State<SignInScreen> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-          hexStringToColor("CB2B93"),
-          hexStringToColor("9546C4"),
-          hexStringToColor("5E61F4")
+          hexStringToColor("9DD5C8"),
+          hexStringToColor("9DD5C8"),
+          hexStringToColor("F8FBFE"),
         ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: SingleChildScrollView(
           child: Padding(

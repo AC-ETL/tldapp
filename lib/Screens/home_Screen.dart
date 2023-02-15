@@ -1,10 +1,16 @@
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_signin/screens/signin_screen.dart';
 import 'package:dao/Wigets/drawer.dart';
-import 'package:dao/sign_in.dart';
-import 'package:dao/utils/color_utils.dart';
+import 'package:dao/Wigets/featured_mentors.dart';
+import 'package:dao/Wigets/hero_info.dart';
+import 'package:dao/Wigets/my_mentors.dart';
+import 'package:dao/Wigets/skills.dart';
+import 'package:dao/Wigets/upcoming_sessions.dart';
+// import 'package:dao/sign_in.dart';
+// import 'package:dao/utils/color_utils.dart';
 import 'package:flutter/material.dart';
-import '../Wigets/header.dart';
+import '../Wigets/hero.dart';
+import '../Wigets/upcoming_sessions.dart';
 
 // This main screen after login....
 
@@ -15,64 +21,67 @@ class HomeScreen extends StatefulWidget {
   final accentColor = const Color(0xffffffff);
   final backgroundColor = const Color(0xffffffff);
   final errorColor = const Color(0xffEF4444);
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
 //  In This is way we declare variable in dart and can use anywhere we want......
+
   static const String _title = 'Learning DAO';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        centerTitle: true,
-        elevation: 7,
-        title: const Text(_title),
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
+        elevation: 2,
+        title: const Text(
+          _title,
+          style: TextStyle(color: Colors.black),
+        ),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.search_outlined,
-              color: Colors.white,
+          CircleAvatar(
+            backgroundColor: Color.fromARGB(255, 184, 187, 194),
+            radius: 15,
+            child: Icon(
+              Icons.search,
+              size: 19,
             ),
-            onPressed: () {
-              // do something
-            },
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: CircleAvatar(
+              backgroundColor: Color.fromARGB(255, 184, 187, 194),
+              radius: 15,
+              child: Icon(Icons.label, size: 19),
+            ),
           )
         ],
       ),
-      // -----------------------Appbar end---------------------------------
       drawer: const AppDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 7),
-        child: Column(
-          children: [
-            Container(
-              height: 150,
-              decoration: BoxDecoration(
-                color: Colors.amber,
-                borderRadius: BorderRadius.circular(6),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                      'https://images.unsplash.com/photo-1501031170107-cfd33f0cbdcc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80'),
+      // -----------------------Appbar end---------------------------------
+      body: SingleChildScrollView(
+        child: Container(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Hero_Sections('section'),
+                const FeaturedMentors(),
+                MyMentors(),
+                SizedBox(
+                  height: 25,
                 ),
-              ),
-              child: Row(children: [
-                Expanded(
-                  child: Container(
-                    color: Colors.amber,
-                  ),
-                ),
-                Expanded(
-                    child: Container(
-                  color: Colors.red,
-                ))
-              ]),
+                HeroInfo(),
+                Skills(),
+                UpCommingSessions()
+              ],
             ),
-            // child: Header(),
-          ],
+          ),
         ),
       ),
     );

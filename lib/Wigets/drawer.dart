@@ -1,8 +1,8 @@
 import 'package:dao/Wigets/carsuol.dart';
-import 'package:dao/Wigets/sessions.dart';
-import 'package:dao/Wigets/user_profile.dart';
-import 'package:dao/Screens/home_Screen.dart';
-import 'package:dao/sign_in.dart';
+import 'package:dao/Screens/sessions.dart';
+import 'package:dao/Screens/user_profile.dart';
+import 'package:dao/Screens/home_screen.dart';
+import 'package:dao/Screens/sign_in.dart';
 import 'package:flutter/material.dart';
 import './carsuol.dart';
 
@@ -26,7 +26,7 @@ class AppDrawer extends StatelessWidget {
   }
 
   Widget buildHeader(BuildContext context) => Material(
-        color: Colors.blue,
+        color: Color.fromARGB(26, 116, 200, 211),
         child: InkWell(
           onTap: () => {
             Navigator.push(
@@ -40,6 +40,7 @@ class AppDrawer extends StatelessWidget {
             child: Column(children: [
               CircleAvatar(
                 radius: 52,
+
                 backgroundImage: NetworkImage(imgurl, scale: 1.0),
                 // backgroundImage: Image.asset(),
               ),
