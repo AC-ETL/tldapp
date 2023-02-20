@@ -2,6 +2,8 @@
 // import 'package:firebase_signin/reusable_widgets/reusable_widget.dart';
 // import 'package:firebase_signin/screens/home_screen.dart';
 // import 'package:firebase_signin/utils/color_utils.dart';
+import 'package:dao/Screens/sign_in.dart';
+import 'package:dao/Screens/user_home_screen.dart';
 import 'package:dao/reusable_widgets/reusable_widget.dart';
 import 'package:dao/utils/color_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -70,8 +72,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           password: _passwordTextController.text)
                       .then((value) {
                     print("Created New Account");
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const UserHomeScreen()));
                   }).onError((error, stackTrace) {
                     print("Error ${error.toString()}");
                   });

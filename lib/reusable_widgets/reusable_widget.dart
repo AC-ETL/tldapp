@@ -1,17 +1,14 @@
-import 'dart:ffi';
-
 import 'package:dao/Wigets/size_Config.dart';
 import 'package:flutter/material.dart';
 import '../Wigets/app_style.dart';
 
 Image logoWidget(String imageName) {
-  return Image.asset(
-    imageName,
-    fit: BoxFit.fitWidth,
-    width: 180,
-    height: 180,
-    color: Colors.white,
-  );
+  return Image.asset(imageName,
+      fit: BoxFit.fitWidth,
+      width: 180,
+      height: 180,
+      color: Colors.white,
+      scale: 1.0);
 }
 
 // Text field reuseable...................
@@ -96,8 +93,8 @@ Row skillTag(String imurl, String name) {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Container(
-        width: 120,
-        height: 50,
+        // width: 120,
+        // height: 50,
         child: Card(
             elevation: 1,
             shape: RoundedRectangleBorder(
@@ -108,7 +105,7 @@ Row skillTag(String imurl, String name) {
               borderRadius: const BorderRadius.all(Radius.circular(12)),
             ),
             child: Padding(
-              padding: const EdgeInsets.only(left: 7),
+              padding: EdgeInsets.all(7),
               child: Row(
                 children: [
                   CircleAvatar(
@@ -118,9 +115,14 @@ Row skillTag(String imurl, String name) {
                   SizedBox(
                     width: 3,
                   ),
-                  Text(
-                    name,
-                    style: TextStyle(fontWeight: FontWeight.w300),
+                  Container(
+                    width: 60,
+                    child: Text(
+                      name,
+                      style: TextStyle(fontWeight: FontWeight.w300),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   )
                 ],
               ),

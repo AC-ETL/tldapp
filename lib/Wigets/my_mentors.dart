@@ -104,13 +104,22 @@ class MyMentors extends StatelessWidget {
                           ),
                         ],
                       ),
-                      // Text(
-                      //   '${_allMentors[index].workingHours}',
-                      //   style: TextStyle(color: primaryColor, fontSize: 8),
-                      // ),
-                      Text(
-                          '${DateFormat.yMd().format(_allMentors[index].date)}',
-                          style: TextStyle(color: primaryColor, fontSize: 8)),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${_allMentors[index].workingHours}',
+                            style: TextStyle(color: primaryColor, fontSize: 8),
+                          ),
+                          SizedBox(
+                            height: 2,
+                          ),
+                          Text(
+                              '${DateFormat.yMd().format(_allMentors[index].date)}',
+                              style:
+                                  TextStyle(color: primaryColor, fontSize: 8)),
+                        ],
+                      ),
                     ],
                   )
                 ]),

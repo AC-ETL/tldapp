@@ -7,6 +7,7 @@ final kTextColor = Color(0xff1C2D56);
 final kblackColor = Color(0xff000000);
 final kborderOrange = Color(0xffFFB66A);
 final kborderBlue = Color(0xff70C3F9);
+final kiconBlue = Color.fromARGB(255, 20, 144, 226);
 final kborderlightGreen = Color(0xff6BFFAB);
 final kborderlightYellow = Color(0xffFFE36A);
 final kborderGreyblue = Color(0xffDC8CFF);

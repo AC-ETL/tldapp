@@ -1,4 +1,5 @@
 import 'package:dao/Screens/sign_up.dart';
+import 'package:dao/Screens/user_home_screen.dart';
 import 'package:dao/utils/color_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,8 @@ class _MyWidgetState extends State<SignInScreen> {
             padding: EdgeInsets.fromLTRB(
                 20, MediaQuery.of(context).size.height * 0.2, 20, 0),
             child: Column(children: <Widget>[
-              logoWidget("assets/images/Logo2.png"),
+              logoWidget("assets/images/Image.png"),
+
               const SizedBox(
                 height: 30,
               ),
@@ -58,7 +60,8 @@ class _MyWidgetState extends State<SignInScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => HomeScreen()),
+                                        builder: (context) =>
+                                            const UserHomeScreen()),
                                   ),
                                 })
                             .onError((error, stackTrace) => {

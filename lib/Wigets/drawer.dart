@@ -1,3 +1,4 @@
+import 'package:dao/Screens/user_home_screen.dart';
 import 'package:dao/Wigets/carsuol.dart';
 import 'package:dao/Screens/sessions.dart';
 import 'package:dao/Screens/user_profile.dart';
@@ -5,6 +6,7 @@ import 'package:dao/Screens/home_screen.dart';
 import 'package:dao/Screens/sign_in.dart';
 import 'package:flutter/material.dart';
 import './carsuol.dart';
+import './app_style.dart';
 
 class AppDrawer extends StatelessWidget {
   final String imgurl =
@@ -26,7 +28,7 @@ class AppDrawer extends StatelessWidget {
   }
 
   Widget buildHeader(BuildContext context) => Material(
-        color: Color.fromARGB(26, 116, 200, 211),
+        color: secondaryColor,
         child: InkWell(
           onTap: () => {
             Navigator.push(
@@ -70,7 +72,7 @@ class AppDrawer extends StatelessWidget {
           children: [
             ListTile(
               leading: const Icon(Icons.person_add_alt_1_outlined),
-              title: const Text('MyMentors'),
+              title: const Text('Home'),
               onTap: () => {
                 Navigator.push(
                   context,
@@ -85,7 +87,8 @@ class AppDrawer extends StatelessWidget {
                 Navigator.pop(context),
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const FavroitePage()),
+                  MaterialPageRoute(
+                      builder: (context) => const UserHomeScreen()),
                 ),
               },
             ),

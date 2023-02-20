@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
 class FeaturedMentors extends StatelessWidget {
-  const FeaturedMentors({super.key});
+  final String title;
+  const FeaturedMentors(this.title);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 17),
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 17),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Featured Mentors',
+            title,
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Color.fromRGBO(28, 45, 86, 1)),

@@ -71,14 +71,15 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Hero_Sections('section'),
-                const FeaturedMentors(),
+                const FeaturedMentors('Featured Mentors'),
                 MyMentors(),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
-                HeroInfo(),
-                Skills(),
-                UpCommingSessions()
+                const HeroInfo(),
+                Skills(true, 'In-Demand Skills'),
+                UpCommingSessions('Up Comming Sessions',
+                    'SignUp to our sessions and start your journey', true, true)
               ],
             ),
           ),

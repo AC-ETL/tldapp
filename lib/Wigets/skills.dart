@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import './app_style.dart';
 
 class Skills extends StatelessWidget {
-  const Skills({super.key});
+  final bool skills;
+  final title;
+
+  Skills(this.skills, this.title);
 
   @override
   Widget build(BuildContext context) {
@@ -12,39 +15,51 @@ class Skills extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
           Text(
-            'In-Demand Skills',
+            title,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               skillTag('assets/images/view.png', 'Viewjs'),
-              skillTag('assets/images/js.png', 'JavaScript'),
+              skills
+                  ? skillTag('assets/images/js.png', 'JavaScriptsgffgf')
+                  : const Text(''),
               skillTag('assets/images/angular.png', 'Angular'),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              skillTag('assets/images/redux.png', 'Redux'),
-              skillTag('assets/images/react.png', 'React'),
-            ],
+          const SizedBox(
+            height: 12,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              skillTag('assets/images/nodejs.png', 'Nodejs'),
-              skillTag('assets/images/express.png', 'Express'),
-              skillTag('assets/images/ts.png', 'TypeScript'),
-            ],
-          )
+          skills
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    skillTag('assets/images/redux.png', 'Redux'),
+                    skillTag('assets/images/react.png', 'React'),
+                  ],
+                )
+              : Text(''),
+          const SizedBox(
+            height: 12,
+          ),
+          skills
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    skillTag('assets/images/nodejs.png', 'Nodejs'),
+                    skillTag('assets/images/express.png', 'Express'),
+                    skillTag('assets/images/ts.png', 'TypeScript'),
+                  ],
+                )
+              : Text('')
         ],
       ),
     );

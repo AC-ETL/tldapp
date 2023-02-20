@@ -1,4 +1,7 @@
 // import 'package:dao/sign_in.dart';
+import 'package:dao/Screens/sign_in.dart';
+import 'package:dao/Screens/sign_up.dart';
+import 'package:dao/Screens/user_profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Screens/home_screen.dart';
@@ -6,7 +9,7 @@ import 'Screens/home_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp( const MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -24,6 +27,11 @@ class MyApp extends StatelessWidget {
       ),
       // home: SignInScreen(),
       home: Scaffold(body: HomeScreen()),
+      routes: {
+        '/siguppage': (context) => const SignUpScreen(),
+        '/signin': (context) => const SignInScreen(),
+        '/user': (context) => const UserProfile()
+      },
     );
   }
 }
