@@ -33,7 +33,7 @@ class _MyWidgetState extends State<SignInScreen> {
             padding: EdgeInsets.fromLTRB(
                 20, MediaQuery.of(context).size.height * 0.2, 20, 0),
             child: Column(children: <Widget>[
-              logoWidget("assets/images/Image.png"),
+              logoWidget("assets/images/Logo2.png"),
 
               const SizedBox(
                 height: 30,

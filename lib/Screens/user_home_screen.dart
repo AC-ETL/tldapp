@@ -4,6 +4,7 @@ import 'package:dao/Wigets/featured_mentors.dart';
 import 'package:dao/Wigets/my_mentors.dart';
 import 'package:dao/Wigets/skills.dart';
 import 'package:dao/Wigets/upcoming_sessions.dart';
+import 'package:dao/model/mentors.dart';
 import 'package:flutter/material.dart';
 
 class UserHomeScreen extends StatefulWidget {
@@ -17,6 +18,24 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   final String _appBartitle = 'UserHomePage';
 
   var selectedItem = '';
+  final List data = [];
+  final List<Sessions> _allSessions = [
+    Sessions(
+      points: 1,
+      image: 'jhjk',
+      instructor: 'hjhj',
+      approve: true,
+      students: [1, 2, 4],
+      endtime: DateTime.utc(2023),
+      starttime: DateTime.utc(2023),
+      title: 'new sessions',
+      tags: ['angular', 'react'],
+    )
+  ];
+
+  void datashow() {
+    print(_allSessions);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +62,10 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               PopupMenuItem(
                 child: Text("SignUp"),
                 //  value: '/siguppage',
-                onTap: () => fetchData(),
+                onTap: () {
+                  fetchData();
+                  print(_allSessions);
+                },
               ),
               PopupMenuItem(
                 child: Text("SingIn"),
@@ -83,11 +105,9 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
 fetchData() async {
   var data = FirebaseFirestore.instance.collection("sessions").snapshots();
   data.map((value) {
-    print(value.docs[0]);
+    // print(value.docs[0]);
     var data2 = value.docs;
-    value.docs.forEach((element) {
-      print(element.data());
-    });
+    value.docs.forEach((element) {});
   }).toList();
 
   // print("data   $data2");
