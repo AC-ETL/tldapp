@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dao/Wigets/size_Config.dart';
 import 'package:flutter/material.dart';
 import '../Wigets/app_style.dart';
@@ -54,6 +55,34 @@ Container firebaseUIButton(BuildContext context, bool islogin, Function onTap) {
       },
       child: Text(
         islogin ? 'Login' : 'Signup',
+        style: const TextStyle(
+            color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 16),
+      ),
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.resolveWith((states) {
+            if (states.contains(MaterialState.pressed)) {
+              return Colors.black26;
+            }
+            return Colors.white;
+          }),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
+    ),
+  );
+}
+
+Container googleUIButton(BuildContext context, bool islogin, Function onTap) {
+  return Container(
+    width: MediaQuery.of(context).size.width,
+    height: 50,
+    margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
+    child: ElevatedButton(
+      onPressed: () {
+        onTap();
+      },
+      child: Text(
+        islogin ? 'Google' : 'GitHub',
         style: const TextStyle(
             color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 16),
       ),
@@ -133,12 +162,12 @@ Row skillTag(String imurl, String name) {
 }
 
 //  this widget is column of upcomming sessions
-Column upCommingSessionsWidget(
-    String imgurl, String title, String mentorname, String mentorimgurl) {
+Column upCommingSessionsWidget(String imgurl, String title, String mentorname,
+    String mentorimgurl, Timestamp startime) {
   return Column(children: [
     ClipRRect(
       borderRadius: BorderRadius.circular(kBorderRadus),
-      child: Image.asset(imgurl),
+      child: Image.network(imgurl),
     ),
     Padding(
       padding: const EdgeInsets.all(8.0),
@@ -150,7 +179,7 @@ Column upCommingSessionsWidget(
             style: TextStyle(fontSize: 10),
           ),
           Text(
-            '2023/02/14 12;23PM',
+            startime.toDate().toString(),
             style: TextStyle(fontSize: 10),
           )
         ],
@@ -158,7 +187,11 @@ Column upCommingSessionsWidget(
     ),
     Padding(
       padding: const EdgeInsets.only(right: 120),
-      child: Text(title),
+      child: Text(
+        title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
     ),
     SizedBox(
       height: 15,
@@ -170,7 +203,7 @@ Column upCommingSessionsWidget(
           child: CircleAvatar(
             radius: 15,
             backgroundColor: kwhite,
-            backgroundImage: AssetImage(mentorimgurl),
+            backgroundImage: NetworkImage(mentorimgurl),
           ),
         ),
         Padding(

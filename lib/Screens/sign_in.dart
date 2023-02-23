@@ -9,7 +9,7 @@ import 'home_screen.dart';
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
-  @override
+   @override
   State<SignInScreen> createState() => _MyWidgetState();
 }
 
@@ -22,11 +22,13 @@ class _MyWidgetState extends State<SignInScreen> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
+        padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom / 5),
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
           hexStringToColor("9DD5C8"),
           hexStringToColor("9DD5C8"),
-          hexStringToColor("F8FBFE"),
+          // hexStringToColor("F8FBFE"),
         ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: SingleChildScrollView(
           child: Padding(
@@ -57,18 +59,19 @@ class _MyWidgetState extends State<SignInScreen> {
                                 email: _emailTextController.text,
                                 password: _passwordTextController.text)
                             .then((value) => {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const UserHomeScreen()),
-                                  ),
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) =>
+                                  //           const UserHomeScreen()),
+                                  // ),
                                 })
                             .onError((error, stackTrace) => {
                                   // ignore: avoid_print
                                   // print("error${error.toString()}")
                                 })
                       }),
+
               // This is Signuprow blow the login btn..
               signUpOption()
             ]),
@@ -88,7 +91,8 @@ class _MyWidgetState extends State<SignInScreen> {
         GestureDetector(
           onTap: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const SignUpScreen()));
+                MaterialPageRoute(builder: (context) =>  SignUpScreen()));
+
             print('Screen changed');
           },
           child: const Text(

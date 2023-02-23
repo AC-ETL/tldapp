@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dao/Screens/user_home_screen.dart';
 import 'package:dao/Wigets/carsuol.dart';
 import 'package:dao/Screens/sessions.dart';
@@ -5,15 +6,19 @@ import 'package:dao/Screens/user_profile.dart';
 import 'package:dao/Screens/home_screen.dart';
 import 'package:dao/Screens/sign_in.dart';
 import 'package:flutter/material.dart';
+import '../model/session_data.dart';
 import './carsuol.dart';
 import './app_style.dart';
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends StatefulWidget {
+  List<SessioinsData> sessioinsData = [];
+  @override
+  State<AppDrawer> createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<AppDrawer> {
   final String imgurl =
       'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80.png';
-  const AppDrawer({
-    Key? key,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -83,13 +88,19 @@ class AppDrawer extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.favorite_border),
               title: const Text('Sessions'),
-              onTap: () => {
-                Navigator.pop(context),
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const UserHomeScreen()),
-                ),
+              onTap: () async {
+                Navigator.pop(context);
+                await fetchData();
+                print(widget.sessioinsData);
+                widget.sessioinsData.isEmpty
+                    ? Center(child: CircularProgressIndicator())
+                    : Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UserHomeScreen(
+                                  sessioinsData: widget.sessioinsData,
+                                )),
+                      );
               },
             ),
             ListTile(
@@ -133,4 +144,26 @@ class AppDrawer extends StatelessWidget {
           ],
         ),
       );
+
+  fetchData() async {
+    var data = FirebaseFirestore.instance.collection("sessions").snapshots();
+    data.map((value) {
+      // print(value.docs[0]);
+      var data2 = value.docs;
+
+      // List<QueryDocumentSnapshot<SessioinsData>> sessionData=value.docs!.forEach((element) { });
+
+      for (var element in value.docs) {
+        setState(() {
+          //SessioinsData sessioinsData=SessioinsData.fromJson(element.data());
+          widget.sessioinsData.add(SessioinsData.fromJson(element.data()));
+        });
+        //widget.sessioinsData=value.docs as List<SessioinsData>;
+
+        //  print("    in session ${widget.sessioinsData!.image}");
+      }
+    }).toList();
+
+    // print("data   $data2");s
+  }
 }

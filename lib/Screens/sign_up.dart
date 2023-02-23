@@ -2,8 +2,11 @@
 // import 'package:firebase_signin/reusable_widgets/reusable_widget.dart';
 // import 'package:firebase_signin/screens/home_screen.dart';
 // import 'package:firebase_signin/utils/color_utils.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dao/Screens/sign_in.dart';
 import 'package:dao/Screens/user_home_screen.dart';
+import 'package:dao/model/mentors.dart';
+import 'package:dao/model/session_data.dart';
 import 'package:dao/reusable_widgets/reusable_widget.dart';
 import 'package:dao/utils/color_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,7 +14,8 @@ import 'package:flutter/material.dart';
 import 'home_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+   SignUpScreen({Key? key}) : super(key: key);
+  SessioinsData? sessioinsData;
 
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -65,24 +69,52 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                firebaseUIButton(context, false, () {
-                  FirebaseAuth.instance
-                      .createUserWithEmailAndPassword(
-                          email: _emailTextController.text,
-                          password: _passwordTextController.text)
-                      .then((value) {
-                    print("Created New Account");
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const UserHomeScreen()));
-                  }).onError((error, stackTrace) {
-                    print("Error ${error.toString()}");
-                  });
+                firebaseUIButton(
+                  context,
+                  false,
+                  () {
+                    FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                            email: _emailTextController.text,
+                            password: _passwordTextController.text)
+                        .then((value) {
+                      print("Created New Account");
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>  UserHomeScreen(sessioinsData: null,)));
+                    }).onError((error, stackTrace) {
+                      print("Error ${error.toString()}");
+                    });
+                  },
+                ),
+                googleUIButton(context, true, () {
+                  // FirebaseAuth.instance.cre
                 })
               ],
             ),
           ))),
     );
+
   }
+  fetchData() async {
+    var data = FirebaseFirestore.instance.collection("sessions").snapshots();
+    data.map((value) {
+      // print(value.docs[0]);
+      var data2 = value.docs;
+
+      // List<QueryDocumentSnapshot<SessioinsData>> sessionData=value.docs!.forEach((element) { });
+
+      value.docs.forEach((element) {
+
+        widget.sessioinsData = SessioinsData.fromJson(element.data());
+
+//        print("    in session ${sessioinsData.image}");
+      });
+    }).toList();
+
+    // print("data   $data2");s
+  }
+
 }

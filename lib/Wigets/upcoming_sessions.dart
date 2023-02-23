@@ -1,5 +1,6 @@
 import 'package:dao/Wigets/my_mentors.dart';
 import 'package:dao/Wigets/size_config.dart';
+import 'package:dao/model/session_data.dart';
 import 'package:dao/reusable_widgets/reusable_widget.dart';
 import 'package:flutter/material.dart';
 import './app_style.dart';
@@ -9,9 +10,12 @@ class UpCommingSessions extends StatelessWidget {
   final String title;
   final String subTitle;
   final bool moreBtn;
-  final bool sessionShow;
+  //  This is List of sessions getting data from parent widget🎈🎈🎈
+  List<SessioinsData> sessioinsData;
 
-  UpCommingSessions(this.title, this.subTitle, this.moreBtn, this.sessionShow);
+  final bool sessionShow;
+  UpCommingSessions(this.title, this.subTitle, this.moreBtn, this.sessionShow,
+      this.sessioinsData);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,7 @@ class UpCommingSessions extends StatelessWidget {
             child: sessionShow
                 ? ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 5,
+                    itemCount: sessioinsData.length,
                     itemBuilder: (context, index) {
                       return Container(
                           // height: MediaQuery.of(context).size.height,
@@ -51,10 +55,11 @@ class UpCommingSessions extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                               color: kCard),
                           child: upCommingSessionsWidget(
-                              'assets/images/session2.png',
-                              'Graphics Design',
-                              'jonas Dean',
-                              'assets/images/mentor1.png'));
+                              sessioinsData[index].image,
+                              sessioinsData[index].title,
+                              sessioinsData[index].instructor,
+                              sessioinsData[index].image,
+                              sessioinsData[index].startTime));
                     },
                   )
                 : const Text('You have no registered sessions')),

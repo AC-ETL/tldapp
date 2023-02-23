@@ -26,11 +26,11 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Raleway',
       ),
       // home: SignInScreen(),
-      home: Scaffold(body: HomeScreen()),
+      home: HomeScreen(),
       routes: {
-        '/siguppage': (context) => const SignUpScreen(),
-        '/signin': (context) => const SignInScreen(),
-        '/user': (context) => const UserProfile()
+        '/siguppage': (context) =>  SignUpScreen(),
+        '/signin': (context) =>  SignInScreen(),
+        '/user': (context) =>  UserProfile()
       },
     );
   }
