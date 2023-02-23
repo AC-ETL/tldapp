@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../model/session_data.dart';
 
 //  Here is the products class with ChangeNotifier
-class Products with ChangeNotifier {
-  List<SessioinsData> _items = [];
+class SessionDataProvider with ChangeNotifier {
+  final List<SessioinsData> _items = [];
 
   //  Here is getter to access the parivate class _item......
   List<SessioinsData> get items {
@@ -22,3 +23,21 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 }
+
+
+// fetchData() async {
+//   var data = FirebaseFirestore.instance.collection("sessions").snapshots();
+//   data.map((value) {
+//     // print(value.docs[0]);
+
+//     // List<QueryDocumentSnapshot<SessioinsData>> sessionData=value.docs!.forEach((element) { });
+
+//     value.docs.forEach((element) {
+//       setState(() {
+//        items.add(SessioinsData.fromJson(element.data()));
+//       });
+
+// //
+//     });
+//   }).toList();
+// }

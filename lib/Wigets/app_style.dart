@@ -14,7 +14,7 @@ final kborderGreyblue = Color(0xffDC8CFF);
 final kbordersilver = Color(0xffD9D9D9);
 final kborderblue = Color(0xff1C2D56);
 final kCard = Color(0xffF4F4F4);
-final String _title = 'Learning DAOs';
+final String _title = 'Learning DAO';
 
 final coustomAppBar = AppBar(
   shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(20)),
