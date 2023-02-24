@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dao/Screens/create_sessions.dart';
 import 'package:dao/Screens/user_home_screen.dart';
 import 'package:dao/Wigets/carsuol.dart';
 import 'package:dao/Screens/sessions.dart';
@@ -88,25 +89,25 @@ class _AppDrawerState extends State<AppDrawer> {
             ListTile(
               leading: const Icon(Icons.favorite_border),
               title: const Text('Sessions'),
-              onTap: () async {
+              onTap: () {
                 Navigator.pop(context);
-                await fetchData();
-                print(widget.sessioinsData);
-                widget.sessioinsData.isEmpty
-                    ? Center(child: CircularProgressIndicator())
-                    : Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => UserHomeScreen(
-                                  sessioinsData: widget.sessioinsData,
-                                )),
-                      );
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UserHomeScreen()),
+                );
               },
             ),
             ListTile(
               leading: const Icon(Icons.workspaces_outline),
-              title: const Text('Resgistered Sessions'),
-              onTap: () => {print('WorkflowTaped..')},
+              title: const Text('Create Sessions'),
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const CreateSessions()),
+                )
+              },
             ),
             ListTile(
               leading: const Icon(Icons.update),

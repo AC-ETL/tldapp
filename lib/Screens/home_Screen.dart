@@ -30,16 +30,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   initState() {
-    // TODO: implement initState
     super.initState();
-    Future.delayed(
-      Duration(seconds: 2),
-      fetchData,
-    );
-    Future.delayed(
-      Duration(seconds: 2),
-      fetchSkillData,
-    );
+    // Future.delayed(
+    //   Duration(seconds: 2),
+    //   fetchData,
+    // );
+    // Future.delayed(
+    //   Duration(seconds: 2),
+    //   fetchSkillData,
+    // );
   }
 
 //  In This is way we declare variable in dart and can use anywhere we want......
@@ -54,68 +53,64 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
-            child: widget.sessioinsData.isEmpty
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Hero_Sections('section'),
-                      const FeaturedMentors('Featured Mentors'),
-                      MyMentors(),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      const HeroInfo(),
-                      Skills(
-                        true,
-                        'In-Demand Skills',
-                      ),
-                      UpCommingSessions(
-                          'Up Comming Sessions',
-                          'SignUp to our sessions and start your journey',
-                          true,
-                          true,
-                          widget.sessioinsData)
-                    ],
-                  ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Hero_Sections('section'),
+                const FeaturedMentors('Featured Mentors'),
+                MyMentors(),
+                const SizedBox(
+                  height: 25,
+                ),
+                const HeroInfo(),
+                Skills(
+                  true,
+                  'In-Demand Skills',
+                ),
+                UpCommingSessions(
+                  'Up Comming Sessions',
+                  'SignUp to our sessions and start your journey',
+                  true,
+                  true,
+                )
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  fetchData() async {
-    var data = FirebaseFirestore.instance.collection("sessions").snapshots();
-    data.map((value) {
-      // print(value.docs[0]);
+//   fetchData() async {
+//     var data = FirebaseFirestore.instance.collection("sessions").snapshots();
+//     data.map((value) {
+//       // print(value.docs[0]);
 
-      // List<QueryDocumentSnapshot<SessioinsData>> sessionData=value.docs!.forEach((element) { });
+//       // List<QueryDocumentSnapshot<SessioinsData>> sessionData=value.docs!.forEach((element) { });
 
-      value.docs.forEach((element) {
-        setState(() {
-          widget.sessioinsData.add(SessioinsData.fromJson(element.data()));
-        });
+//       value.docs.forEach((element) {
+//         setState(() {
+//           widget.sessioinsData.add(SessioinsData.fromJson(element.data()));
+//         });
 
-//
-      });
-    }).toList();
-  }
+// //
+//       });
+//     }).toList();
+//   }
 
   //  This fn get the data from skills collections🎈🎈🎈
-  fetchSkillData() async {
-    var data = FirebaseFirestore.instance.collection("skills").snapshots();
-    data.map((value) {
-      // print(value.docs[0]);
+//   fetchSkillData() async {
+//     var data = FirebaseFirestore.instance.collection("skills").snapshots();
+//     data.map((value) {
+//       // print(value.docs[0]);
 
-      // List<QueryDocumentSnapshot<SessioinsData>> sessionData=value.docs!.forEach((element) { });
+//       // List<QueryDocumentSnapshot<SessioinsData>> sessionData=value.docs!.forEach((element) { });
 
-      value.docs.forEach((element) {
-        widget.skillData.add(SkillData.fromJson(element.data()));
+//       value.docs.forEach((element) {
+//         widget.skillData.add(SkillData.fromJson(element.data()));
 
-//        print("    in session ${sessioinsData.image}");
-      });
-    }).toList();
-  }
+// //        print("    in session ${sessioinsData.image}");
+//       });
+//     }).toList();
+//   }
 }

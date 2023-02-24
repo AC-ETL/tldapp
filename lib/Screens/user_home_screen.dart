@@ -11,8 +11,9 @@ import 'package:dao/model/session_data.dart';
 import 'package:flutter/material.dart';
 
 class UserHomeScreen extends StatefulWidget {
-  List<SessioinsData>? sessioinsData;
-  UserHomeScreen({required this.sessioinsData});
+  // List<SessioinsData>? sessioinsData;
+
+  UserHomeScreen();
 
   @override
   State<UserHomeScreen> createState() => _UserHomeScreenState();
@@ -71,21 +72,21 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
         child: Container(
           child: Column(children: [
             UpCommingSessions(
-                'Registered Sessions',
-                'Sessions that you have Registered',
-                false,
-                true,
-                widget.sessioinsData!),
+              'Registered Sessions',
+              'Sessions that you have Registered',
+              false,
+              true,
+            ),
             FeaturedMentors('My Mentors'),
             MyMentors(),
             Skills(false, 'Interested Skills'),
             Skills(true, 'Recommended Skills'),
             UpCommingSessions(
-                'Recommended Skills',
-                'Sign Up to one of our sessions and start your journey',
-                false,
-                true,
-                widget.sessioinsData!)
+              'Recommended Sessions',
+              'Sign Up to one of our sessions and start your journey',
+              false,
+              true,
+            )
           ]),
         ),
       ),

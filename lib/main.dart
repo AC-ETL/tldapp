@@ -5,6 +5,8 @@ import 'package:dao/Screens/user_profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Screens/home_screen.dart';
+import 'package:provider/provider.dart';
+import './provider/sessions_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,19 +21,25 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-        fontFamily: 'Raleway',
+    return ChangeNotifierProvider.value(
+      // Here we providing the session data to all child widgets....
+      // Here im using value provider beacuse we no need context here..
+      value: SessionDataProvider(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey)
+              .copyWith(secondary: Colors.lightGreen),
+          fontFamily: 'Raleway',
+        ),
+        // home: SignInScreen(),
+        home: HomeScreen(),
+        routes: {
+          '/siguppage': (context) => SignUpScreen(),
+          '/signin': (context) => SignInScreen(),
+          '/user': (context) => UserProfile()
+        },
       ),
-      // home: SignInScreen(),
-      home: HomeScreen(),
-      routes: {
-        '/siguppage': (context) =>  SignUpScreen(),
-        '/signin': (context) =>  SignInScreen(),
-        '/user': (context) =>  UserProfile()
-      },
     );
   }
 }

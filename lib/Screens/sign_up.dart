@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'home_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
-   SignUpScreen({Key? key}) : super(key: key);
+  SignUpScreen({Key? key}) : super(key: key);
   SessioinsData? sessioinsData;
 
   @override
@@ -83,7 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>  UserHomeScreen(sessioinsData: null,)));
+                              builder: (context) => UserHomeScreen()));
                     }).onError((error, stackTrace) {
                       print("Error ${error.toString()}");
                     });
@@ -96,8 +96,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ))),
     );
-
   }
+
   fetchData() async {
     var data = FirebaseFirestore.instance.collection("sessions").snapshots();
     data.map((value) {
@@ -107,7 +107,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       // List<QueryDocumentSnapshot<SessioinsData>> sessionData=value.docs!.forEach((element) { });
 
       value.docs.forEach((element) {
-
         widget.sessioinsData = SessioinsData.fromJson(element.data());
 
 //        print("    in session ${sessioinsData.image}");
@@ -116,5 +115,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     // print("data   $data2");s
   }
-
 }

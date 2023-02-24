@@ -163,7 +163,7 @@ Row skillTag(String imurl, String name) {
 
 //  this widget is column of upcomming sessions
 Column upCommingSessionsWidget(String imgurl, String title, String mentorname,
-    String mentorimgurl, Timestamp startime) {
+    String mentorimgurl, DateTime startime) {
   return Column(children: [
     ClipRRect(
       borderRadius: BorderRadius.circular(kBorderRadus),
@@ -179,7 +179,8 @@ Column upCommingSessionsWidget(String imgurl, String title, String mentorname,
             style: TextStyle(fontSize: 10),
           ),
           Text(
-            startime.toDate().toString(),
+            // startime.toDate().toString(),
+            startime.toString(),
             style: TextStyle(fontSize: 10),
           )
         ],

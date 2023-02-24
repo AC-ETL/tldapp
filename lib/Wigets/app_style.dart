@@ -30,6 +30,7 @@ final coustomAppBar = AppBar(
       backgroundColor: Color.fromARGB(255, 184, 187, 194),
       radius: 15,
       child: Icon(
+        color: Colors.black,
         Icons.search,
         size: 19,
       ),
@@ -39,7 +40,7 @@ final coustomAppBar = AppBar(
       child: CircleAvatar(
         backgroundColor: Color.fromARGB(255, 184, 187, 194),
         radius: 15,
-        child: Icon(Icons.label, size: 19),
+        child: Icon(color: Colors.black, Icons.label, size: 19),
       ),
     )
   ],
