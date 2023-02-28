@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import '../model/session_data.dart';
 import './carsuol.dart';
 import './app_style.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AppDrawer extends StatefulWidget {
   List<SessioinsData> sessioinsData = [];
@@ -36,11 +37,18 @@ class _AppDrawerState extends State<AppDrawer> {
   Widget buildHeader(BuildContext context) => Material(
         color: secondaryColor,
         child: InkWell(
-          onTap: () => {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const UserProfile()),
-            ),
+          onTap: () {
+            FirebaseFirestore.instance
+                .collection("users")
+                .doc("oW8HjYPw0sR4NqEO9lAM7hIAXDH2")
+                .get()
+                .then((value) {
+              print("  ${value.data()}");
+            });
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => const UserProfile()),
+            // ),
           },
           child: Container(
             padding: EdgeInsets.only(

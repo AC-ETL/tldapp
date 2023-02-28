@@ -8,7 +8,7 @@ import './app_style.dart';
 import './size_config.dart';
 import 'package:provider/provider.dart';
 
-class UpCommingSessions extends StatelessWidget {
+class UpCommingSessions extends StatefulWidget {
   final String title;
   final String subTitle;
   final bool moreBtn;
@@ -24,30 +24,45 @@ class UpCommingSessions extends StatelessWidget {
   );
 
   @override
+  State<UpCommingSessions> createState() => _UpCommingSessionsState();
+}
+
+class _UpCommingSessionsState extends State<UpCommingSessions> {
+  // void initState() {
+  //   SessionDataProvider sessionsData =
+  //       Provider.of<SessionDataProvider>(context, listen: false);
+  //   sessionsData.fetchData();
+  //   super.initState();
+  // }
+
+  @override
   Widget build(BuildContext context) {
     //  Here we listening the data pass the data to upcommingsession widget....🎈🎈
     final sessionsData = Provider.of<SessionDataProvider>(context);
+    sessionsData.fetchData();
+    // Here we accessing the method who return the all sessions data
     final sessions = sessionsData.sessions;
+
     return Column(
       children: [
         SizedBox(
           height: 25,
         ),
         Text(
-          title,
+          widget.title,
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 15),
           child: Text(
-            subTitle,
+            widget.subTitle,
             style: TextStyle(fontSize: subhTextSize, color: kTextColor),
           ),
         ),
         SizedBox(
             // height: 266,
             height: MediaQuery.of(context).size.height * 0.35,
-            child: sessionShow
+            child: widget.sessionShow
                 ? ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: sessions.length,
@@ -68,17 +83,17 @@ class UpCommingSessions extends StatelessWidget {
                             sessions[index].title,
                             sessions[index].instructor,
                             sessions[index].image,
-                            sessions[index].endTime),
+                            sessions[index].endTime.toDate()),
                       );
                     },
                   )
                 : const Text('You have no registered sessions')),
-        moreBtn
+        widget.moreBtn
             ? SizedBox(
                 height: 20,
               )
             : Text(''),
-        moreBtn
+        widget.moreBtn
             ? Container(
                 height: 25,
                 decoration: BoxDecoration(

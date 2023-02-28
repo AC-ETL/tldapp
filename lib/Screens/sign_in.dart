@@ -9,7 +9,7 @@ import 'home_screen.dart';
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
-   @override
+  @override
   State<SignInScreen> createState() => _MyWidgetState();
 }
 
@@ -59,12 +59,11 @@ class _MyWidgetState extends State<SignInScreen> {
                                 email: _emailTextController.text,
                                 password: _passwordTextController.text)
                             .then((value) => {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) =>
-                                  //           const UserHomeScreen()),
-                                  // ),
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => UserHomeScreen()),
+                                  ),
                                 })
                             .onError((error, stackTrace) => {
                                   // ignore: avoid_print
@@ -91,7 +90,7 @@ class _MyWidgetState extends State<SignInScreen> {
         GestureDetector(
           onTap: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) =>  SignUpScreen()));
+                MaterialPageRoute(builder: (context) => SignUpScreen()));
 
             print('Screen changed');
           },

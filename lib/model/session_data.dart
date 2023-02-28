@@ -25,11 +25,11 @@ class SessioinsData {
   });
 
   bool approve;
-  DateTime endTime;
+  Timestamp endTime;
   String image;
   String instructor;
   String poins;
-  DateTime startTime;
+  Timestamp startTime;
   List<String> students;
   String title;
   List<String> tags;
