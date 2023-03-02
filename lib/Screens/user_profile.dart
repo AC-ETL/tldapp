@@ -24,7 +24,7 @@ class _UserProfileState extends State<UserProfile> {
       children: [buildTop(), buildContent()],
     ));
   }
-
+// This is widget method containinh somemore widgets..
   Widget buildTop() {
     final double top = coverHeight - profileImageHeight / 2;
     return Stack(

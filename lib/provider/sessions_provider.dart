@@ -84,7 +84,7 @@ class SessionDataProvider with ChangeNotifier {
     // _item.add(value);
     notifyListeners();
   }
-
+//  Here fetching the data and add to private_sessions List....
   fetchData() async {
     var data =
         FirebaseFirestore.instance.collection("sessions").get().then((value) {
@@ -93,16 +93,6 @@ class SessionDataProvider with ChangeNotifier {
         _sessions.add(SessioinsData.fromJson(element.data()));
       });
     });
-//     data.map((value) {
-//       // print(value.docs[0]);
-
-//       // List<QueryDocumentSnapshot<SessioinsData>> sessionData=value.docs!.forEach((element) { });
-
-//       value.docs.forEach((element) {
-//         print(element.data());
-
-// //
-//       });
-//     }).toList();
+    
   }
 }
