@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Raleway',
         ),
         // home: SignInScreen(),
+        // home: HomeScreen(),
         home: HomeScreen(),
         routes: {
           '/siguppage': (context) => SignUpScreen(),

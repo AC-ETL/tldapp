@@ -88,11 +88,12 @@ class SessionDataProvider with ChangeNotifier {
   fetchData() async {
     var data =
         FirebaseFirestore.instance.collection("sessions").get().then((value) {
-      print(value.docs[0].data());
+      // print(value.docs[0].data());
       value.docs.forEach((element) {
         _sessions.add(SessioinsData.fromJson(element.data()));
       });
     });
+   // notifyListeners();
     
   }
 }

@@ -1,11 +1,9 @@
-import 'package:dao/Wigets/my_mentors.dart';
+
 import 'package:dao/Wigets/size_config.dart';
-import 'package:dao/model/session_data.dart';
 import 'package:dao/provider/sessions_provider.dart';
 import 'package:dao/reusable_widgets/reusable_widget.dart';
 import 'package:flutter/material.dart';
 import './app_style.dart';
-import './size_config.dart';
 import 'package:provider/provider.dart';
 
 class UpCommingSessions extends StatefulWidget {
@@ -14,6 +12,8 @@ class UpCommingSessions extends StatefulWidget {
   final bool moreBtn;
   //  This is List of sessions getting data from parent widget🎈🎈🎈
   // List<SessioinsData> sessioinsData;
+  
+  
 
   final bool sessionShow;
   UpCommingSessions(
@@ -28,10 +28,14 @@ class UpCommingSessions extends StatefulWidget {
 }
 
 class _UpCommingSessionsState extends State<UpCommingSessions> {
+var sessions=[];
+
   // void initState() {
   //   SessionDataProvider sessionsData =
   //       Provider.of<SessionDataProvider>(context, listen: false);
   //   sessionsData.fetchData();
+    
+  //     sessions = sessionsData.sessions;
   //   super.initState();
   // }
 
@@ -43,7 +47,8 @@ class _UpCommingSessionsState extends State<UpCommingSessions> {
     // Here we accessing the method who return the all sessions data
     final sessions = sessionsData.sessions;
 
-    return Column(
+
+    return sessions.isEmpty?const Text('data') : Column(
       children: [
         SizedBox(
           height: 25,
@@ -67,7 +72,7 @@ class _UpCommingSessionsState extends State<UpCommingSessions> {
                     scrollDirection: Axis.horizontal,
                     itemCount: sessions.length,
                     itemBuilder: (context, index) {
-                      return Container(
+                      return  Container(
                         // height: MediaQuery.of(context).size.height,
                         width: MediaQuery.of(context).size.width / 1.5,
                         height: 169,
