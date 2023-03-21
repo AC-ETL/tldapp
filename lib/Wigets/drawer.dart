@@ -20,16 +20,21 @@ class _AppDrawerState extends State<AppDrawer> {
 
   // final String imgurl =
   //     'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80.png';
-Map<String,dynamic>? myEmail;
-Map<String,dynamic>? summry;
+
+Map<String,dynamic>? userData;
+
+// Taking instanceValue from FirebaseAuth..
+FirebaseAuth auth = FirebaseAuth.instance;
+      signOut() async {
+        print('...........$auth');
+        await auth.signOut();
+      }
+
 
 @override
   void initState() {
     // TODO: implement initState
-  _fetch();
-
-
-
+  _fetchUserData();
     super.initState();
   }
 
@@ -50,13 +55,7 @@ Map<String,dynamic>? summry;
         color: secondaryColor,
         child: InkWell(
           onTap: () {
-            // FirebaseFirestore.instance
-            //     .collection("users")
-            //     .doc("oW8HjYPw0sR4NqEO9lAM7hIAXDH2")
-            //     .get()
-            //     .then((value) {
-            //   print("  ${value.data()}");
-            // });
+            
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const UserProfile()),
@@ -69,25 +68,25 @@ Map<String,dynamic>? summry;
               CircleAvatar(
                 radius: 52,
              // Here we showing the data condittionally to profile image.............
-                backgroundImage: NetworkImage(  summry==null?'https://i.gifer.com/SVKl.gif': summry?['image'], scale: 1.0),
+                backgroundImage: NetworkImage(  'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80.png'),
                 // backgroundImage: Image.asset(),
               ),
               SizedBox(
                 height: 15,
               ),
               // Here we showing the data condittionally to profile Name.............
-              summry==null? Container( height: 12 ,width: 12, child: Image.network('https://i.gifer.com/VZvw.gif') )  : Text(
-                 summry?['displayName'],
+              userData==null? Container( height: 12 ,width: 12, child: Image.network('https://i.gifer.com/VZvw.gif') )  : Text(
+                 userData?['Name'],
 
                 style: DefaultTextStyle.of(context)
                     .style
                     .apply(fontSizeFactor: 1.5, color: Colors.white),
               ),
               // Here we showing the data condittionally to profile Email.............
-              myEmail==null?Container( height: 12 ,width: 12, child: Image.network('https://i.gifer.com/VZvw.gif') ):   Text(
+              userData==null?Container( height: 12 ,width: 12, child: Image.network('https://i.gifer.com/VZvw.gif') ):   Text(
                 
                 
-                summry?['email'],
+                userData?['email'],
                 style: TextStyle(
                     fontWeight: FontWeight.normal, color: Colors.white),
               )
@@ -161,39 +160,32 @@ Map<String,dynamic>? summry;
               leading: const Icon(Icons.logout_outlined),
               title: const Text('Logout'),
               onTap: () => {
-                Navigator.push(
+           // Here im calling sigout fn...
+              signOut(),
+              Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const SignInScreen()))
+                        builder: (context) => const SignInScreen(),),)
               },
             ),
           ],
         ),
       );
-
-  _fetch() {
-    final firebaseUser =  FirebaseAuth.instance.currentUser;
+//  This fn write for show the email and password of specific user to the Drawer..
+  _fetchUserData() {
+    final firebaseUserUid =  FirebaseAuth.instance.currentUser?.uid;
     // Here we checkin if the user not exist  then don't fetch the userdata...
-    if (firebaseUser != null){
+    if (firebaseUserUid != null){
        FirebaseFirestore.instance
           .collection('users')
-          .doc('6g0Ri6ZfecRLHGnuLhb3UvxviBj2')
+          .doc(firebaseUserUid)
           .get()
           .then((ds) {
-     final data =ds.data();
-     print(data);
-    final summryData  =data?['summry'];
-    //  Here we rerender the widget to show backend data
-    setState(() {
-    myEmail=data;
-    summry=summryData;
-    });
-
-    print( '>>'+summryData['email']);
-
-
-      
-
+setState(() {
+  // Here  im seting the data to class variable userData
+      userData =ds.data();
+});
+     print(userData);
       }).catchError((e) {
         print(e);
       });

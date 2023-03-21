@@ -21,10 +21,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      // Here we providing the session data to all child widgets....
-      // Here im using value provider beacuse we no need context here..
-      value: SessionDataProvider(),
+    return MultiProvider(
+      // Use value provider Where you have no need context..
+     providers: [
+ChangeNotifierProvider(create: (ctx)=>SessionDataProvider())
+
+     ],
+     
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(

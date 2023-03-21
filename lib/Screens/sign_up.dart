@@ -79,11 +79,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             password: _passwordTextController.text)
                         .then((value) {
                       print("Created New Account");
-
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => UserHomeScreen()));
+                      FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(value.user?.uid)
+                      .set({'email':value.user?.email,
+                      'Name':_userNameTextController.text,
+                      'uid':value.user?.uid,
+                      "interest":['Js','React','NextJs','Flutter']
+                      },);
+                      print('UserdataSubmit');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignInScreen()));
                     }).onError((error, stackTrace) {
                       print("Error ${error.toString()}");
                     });

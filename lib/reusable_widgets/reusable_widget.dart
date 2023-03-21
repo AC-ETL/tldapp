@@ -112,6 +112,8 @@ OutlinedButton findButton(String text) {
     child: Text(
       '${text}',
       style: TextStyle(fontSize: 10),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
     ),
   );
 }

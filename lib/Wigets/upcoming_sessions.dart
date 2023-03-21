@@ -43,9 +43,15 @@ var sessions=[];
   Widget build(BuildContext context) {
     //  Here we listening the data pass the data to upcommingsession widget....🎈🎈
     final sessionsData = Provider.of<SessionDataProvider>(context);
-    sessionsData.fetchData();
+       sessionsData.fetchData();
+     
+     sessions = sessionsData.sessions;
+     setState(() {
+        sessions;
+     });
+   
     // Here we accessing the method who return the all sessions data
-    final sessions = sessionsData.sessions;
+    
 
 
     return sessions.isEmpty?const Text('data') : Column(

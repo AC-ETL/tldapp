@@ -49,7 +49,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             return [
               PopupMenuItem(
                 child: Text("SignUp"),
-                //  value: '/siguppage',
+                 value: '/siguppage',
                 onTap: () {
                   //    fetchData();
                 },

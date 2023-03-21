@@ -9,6 +9,7 @@ import 'package:dao/Wigets/skills.dart';
 import 'package:dao/Wigets/upcoming_sessions.dart';
 import 'package:dao/model/session_data.dart';
 import 'package:dao/model/skills.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:dao/sign_in.dart';
 // import 'package:dao/utils/color_utils.dart';
 import 'package:flutter/material.dart';
@@ -28,13 +29,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  
   @override
   initState() {
     super.initState();
-    // Future.delayed(
-    //   Duration(seconds: 2),
-    //   fetchData,
-    // );
+    Future.delayed(
+      Duration(seconds: 2),
+      fetchCurrentUser,
+    );
     // Future.delayed(
     //   Duration(seconds: 2),
     //   fetchSkillData,
@@ -81,6 +83,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+fetchCurrentUser(){
+   final UserEmail=  FirebaseAuth.instance.currentUser?.email;
+   final UserUid=  FirebaseAuth.instance.currentUser?.uid;
+   print('>>>>>>>>>Home<<<<<<<<$UserEmail');
+   print('>>>>>>>>>Home<<<<<<<<$UserUid');
+}
 //   fetchData() async {
 //     var data = FirebaseFirestore.instance.collection("sessions").snapshots();
 //     data.map((value) {
@@ -113,4 +121,6 @@ class _HomeScreenState extends State<HomeScreen> {
 //       });
 //     }).toList();
 //   }
+
+
 }
