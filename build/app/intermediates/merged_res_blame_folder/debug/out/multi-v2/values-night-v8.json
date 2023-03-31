@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\sajid\\OneDrive\\Desktop\\DAO-app\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
+            "outputFile": "E:\\Projects-Repos\\tldapp\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\sajid\\OneDrive\\Desktop\\DAO-app\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+                    "source": "E:\\Projects-Repos\\tldapp\\android\\app\\src\\main\\res\\values-night\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",

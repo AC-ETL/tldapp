@@ -4,14 +4,11 @@
 // import 'package:firebase_signin/utils/color_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dao/Screens/sign_in.dart';
-import 'package:dao/Screens/user_home_screen.dart';
-import 'package:dao/model/mentors.dart';
 import 'package:dao/model/session_data.dart';
 import 'package:dao/reusable_widgets/reusable_widget.dart';
 import 'package:dao/utils/color_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   SignUpScreen({Key? key}) : super(key: key);
@@ -80,13 +77,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         .then((value) {
                       print("Created New Account");
                       FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(value.user?.uid)
-                      .set({'email':value.user?.email,
-                      'Name':_userNameTextController.text,
-                      'uid':value.user?.uid,
-                      "interest":['Js','React','NextJs','Flutter']
-                      },);
+                          .collection('users')
+                          .doc(value.user?.uid)
+                          .set(
+                        {
+                          'email': value.user?.email,
+                          'Name': _userNameTextController.text,
+                          'uid': value.user?.uid,
+                          "interest": ['Js', 'React', 'NextJs', 'Flutter']
+                        },
+                      );
                       print('UserdataSubmit');
                       Navigator.push(
                           context,

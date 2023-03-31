@@ -1,5 +1,6 @@
+// ignore_for_file: non_constant_identifier_names, prefer_const_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dao/Wigets/drawer.dart';
 import 'package:dao/Wigets/number_widget.dart';
 import 'package:dao/Wigets/ProfileTabs/about_me.dart';
 import 'package:dao/Wigets/ProfileTabs/my_shecdule.dart';
@@ -22,17 +23,18 @@ class _UserProfileState extends State<UserProfile> {
       'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80.png';
   final double coverHeight = 200;
   final double profileImageHeight = 144;
-  Map<String,dynamic>?userProfileData;
+  Map<String, dynamic>? userProfileData;
 // Here im Creating variable for displying data coditionaly..
-var AboutV=true;
-var RewardV=false;
-var ActivityV=false;
-var MYScheduleV=false;
+  var AboutV = true;
+  var RewardV = false;
+  var ActivityV = false;
+  var MYScheduleV = false;
 
-
+  @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
-  _fetchUserData();
+    _fetchUserData();
     super.initState();
   }
 
@@ -40,9 +42,10 @@ var MYScheduleV=false;
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
-      children: [   buildTop(), buildContent()],
+      children: [buildTop(), buildContent()],
     ));
   }
+
 // This is widget method containinh somemore widgets..
   Widget buildTop() {
     final double top = coverHeight - profileImageHeight / 2;
@@ -84,8 +87,13 @@ var MYScheduleV=false;
         SizedBox(
           height: 80,
         ),
-        userProfileData==null?Container( height: 12 ,width: 12, child: Image.network('https://i.gifer.com/VZvw.gif') ): Text( userProfileData?['Name'],
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        userProfileData == null
+            ? Container(
+                height: 12,
+                width: 12,
+                child: Image.network('https://i.gifer.com/VZvw.gif'))
+            : Text(userProfileData?['Name'],
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         SizedBox(
           height: 8,
         ),
@@ -123,99 +131,89 @@ var MYScheduleV=false;
           height: 16,
         ),
         Divider(),
-        
+
         UserPrfileTabs(),
         Divider(),
         // SizedBox(height: 12,),
 
         Container(
-          child: Column(children: [
-
-            // This widget conditionaly show on the screen when click on the tabs....
-if(AboutV)const AboutMe(),
-if( ActivityV)const Activity(),
-if(RewardV)const Reward(),
-if(MYScheduleV)const MYSchedule()
-       
-        
-          ],),
+          child: Column(
+            children: [
+              // This widget conditionaly show on the screen when click on the tabs....
+              if (AboutV) const AboutMe(),
+              if (ActivityV) const Activity(),
+              if (RewardV) const Reward(),
+              if (MYScheduleV) const MYSchedule()
+            ],
+          ),
         ),
-
-         
-
-       
       ],
     );
   }
 
   Widget UserPrfileTabs() => Container(
-        padding: EdgeInsets.symmetric(vertical: 4 ,horizontal: 4),
+        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            
-                InkWell(
-                  child: Text('About',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                      onTap: () {
-                        setState(() {
-                          
-                        AboutV=true;
-                        ActivityV=false;
-                        RewardV=false;
-                        MYScheduleV=false;
-                        });
-                        
-                         print('About');},
-                ),
-                InkWell(
-                  child: Text('Activity',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                       onTap: () {
-                        setState(() {
-                          
-                        AboutV=false;
-                        ActivityV=true;
-                        RewardV=false;
-                        MYScheduleV=false;
-                        });
-                        
-                         print('Activity');},
-                ),
-                InkWell(
-                  child: Text('Reward',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                       onTap: () {
-                        setState(() {
-                          
-                        AboutV=false;
-                        ActivityV=false;
-                        RewardV=true;
-                        MYScheduleV=false;
-                        });
-                        
-                         print('Reward');},
-                ),
-                InkWell(
-                  child: Text('My Schedule',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                       onTap: () {
-                        setState(() {
-                          
-                       AboutV=false;
-                        ActivityV=false;
-                        RewardV=false;
-                        MYScheduleV=true;
-                        });
-                        
-                         print('My Schedule');},
-                ),
-                 
-                
-              ],
+            InkWell(
+              child: Text('About',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              onTap: () {
+                setState(() {
+                  AboutV = true;
+                  ActivityV = false;
+                  RewardV = false;
+                  MYScheduleV = false;
+                });
+
+                print('About');
+              },
             ),
-          
-        
+            InkWell(
+              child: Text('Activity',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              onTap: () {
+                setState(() {
+                  AboutV = false;
+                  ActivityV = true;
+                  RewardV = false;
+                  MYScheduleV = false;
+                });
+
+                print('Activity');
+              },
+            ),
+            InkWell(
+              child: Text('Reward',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              onTap: () {
+                setState(() {
+                  AboutV = false;
+                  ActivityV = false;
+                  RewardV = true;
+                  MYScheduleV = false;
+                });
+
+                print('Reward');
+              },
+            ),
+            InkWell(
+              child: Text('My Schedule',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              onTap: () {
+                setState(() {
+                  AboutV = false;
+                  ActivityV = false;
+                  RewardV = false;
+                  MYScheduleV = true;
+                });
+
+                print('My Schedule');
+              },
+            ),
+          ],
+        ),
       );
 
   Widget circuleAvatar(IconData icon, Color iconColor) {
@@ -237,24 +235,23 @@ if(MYScheduleV)const MYSchedule()
         ));
   }
 
-_fetchUserData() {
-    final firebaseUserUid =  FirebaseAuth.instance.currentUser?.uid;
+  _fetchUserData() {
+    final firebaseUserUid = FirebaseAuth.instance.currentUser?.uid;
     // Here we checkin if the user not exist  then don't fetch the userdata...
-    if (firebaseUserUid != null){
-       FirebaseFirestore.instance
+    if (firebaseUserUid != null) {
+      FirebaseFirestore.instance
           .collection('users')
           .doc(firebaseUserUid)
           .get()
           .then((ds) {
-setState(() {
-  // Here  im seting the data to class variable userData
-      userProfileData =ds.data();
-});
-     print(userProfileData?['email']);
+        setState(() {
+          // Here  im seting the data to class variable userData
+          userProfileData = ds.data();
+        });
+        print(userProfileData?['email']);
       }).catchError((e) {
         print(e);
       });
     }
-   }
-
+  }
 }

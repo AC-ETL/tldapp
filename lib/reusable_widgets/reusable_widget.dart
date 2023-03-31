@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dao/Wigets/size_Config.dart';
 import 'package:flutter/material.dart';
 import '../Wigets/app_style.dart';
@@ -165,17 +164,17 @@ Row skillTag(String imurl, String name) {
 
 //  this widget is column of upcomming sessions
 Column upCommingSessionsWidget(String imgurl, String title, String mentorname,
-
     String mentorimgurl, DateTime startime) {
   return Column(children: [
     ClipRRect(
-      borderRadius: BorderRadius.circular(kBorderRadus),
-      child: Container(
-        height: 180,
-        width: double.infinity,
-        decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(imgurl),fit: BoxFit.fill)),
-      )
-    ),
+        borderRadius: BorderRadius.circular(kBorderRadus),
+        child: Container(
+          height: 180,
+          width: double.infinity,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: NetworkImage(imgurl), fit: BoxFit.fill)),
+        )),
     Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(

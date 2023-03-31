@@ -23,12 +23,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       // Use value provider Where you have no need context..
-     providers: [
-ChangeNotifierProvider(create: (ctx)=>SessionDataProvider())
+      providers: [
+        ChangeNotifierProvider(create: (ctx) => SessionDataProvider())
+      ],
 
-     ],
-     
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey)
@@ -40,8 +40,8 @@ ChangeNotifierProvider(create: (ctx)=>SessionDataProvider())
         home: HomeScreen(),
         routes: {
           '/siguppage': (context) => SignUpScreen(),
-          '/signin': (context) => SignInScreen(),
-          '/user': (context) => UserProfile()
+          '/signin': (context) => const SignInScreen(),
+          '/user': (context) => const UserProfile()
         },
       ),
     );
