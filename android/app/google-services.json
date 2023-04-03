@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "765270106882",
-    "project_id": "tldweb-dev",
-    "storage_bucket": "tldweb-dev.appspot.com"
+    "project_number": "221934742356",
+    "project_id": "tldapp",
+    "storage_bucket": "tldapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:765270106882:android:64165378ad0657b452581b",
+        "mobilesdk_app_id": "1:221934742356:android:aa6631dfa3fd510e0f76c1",
         "android_client_info": {
           "package_name": "com.example.dao"
         }
       },
       "oauth_client": [
         {
-          "client_id": "765270106882-up82ln84h9phophngmeka452ia86s5gi.apps.googleusercontent.com",
+          "client_id": "221934742356-cflhk4b6dc054ctffivaodgehtpg1ut8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBiAETkheoAevYNiSYPF0UHF34YPw318MY"
+          "current_key": "AIzaSyCoXfDsAU7qnd3hwJeC6XqXJMpfgGCVWic"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "765270106882-up82ln84h9phophngmeka452ia86s5gi.apps.googleusercontent.com",
+              "client_id": "221934742356-cflhk4b6dc054ctffivaodgehtpg1ut8.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

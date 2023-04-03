@@ -128,16 +128,16 @@
     <string name="common_signin_button_text">Sign in</string>
     <string name="common_signin_button_text_long">Sign in with Google</string>
     <string name="copy_toast_msg">Link copied to clipboard</string>
-    <string name="default_web_client_id" translatable="false">765270106882-up82ln84h9phophngmeka452ia86s5gi.apps.googleusercontent.com</string>
+    <string name="default_web_client_id" translatable="false">221934742356-cflhk4b6dc054ctffivaodgehtpg1ut8.apps.googleusercontent.com</string>
     <string name="fallback_menu_item_copy_link">Copy link</string>
     <string name="fallback_menu_item_open_in_browser">Open in browser</string>
     <string name="fallback_menu_item_share_link">Share link</string>
-    <string name="gcm_defaultSenderId" translatable="false">765270106882</string>
-    <string name="google_api_key" translatable="false">AIzaSyBiAETkheoAevYNiSYPF0UHF34YPw318MY</string>
-    <string name="google_app_id" translatable="false">1:765270106882:android:64165378ad0657b452581b</string>
-    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBiAETkheoAevYNiSYPF0UHF34YPw318MY</string>
-    <string name="google_storage_bucket" translatable="false">tldweb-dev.appspot.com</string>
-    <string name="project_id" translatable="false">tldweb-dev</string>
+    <string name="gcm_defaultSenderId" translatable="false">221934742356</string>
+    <string name="google_api_key" translatable="false">AIzaSyCoXfDsAU7qnd3hwJeC6XqXJMpfgGCVWic</string>
+    <string name="google_app_id" translatable="false">1:221934742356:android:aa6631dfa3fd510e0f76c1</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCoXfDsAU7qnd3hwJeC6XqXJMpfgGCVWic</string>
+    <string name="google_storage_bucket" translatable="false">tldapp.appspot.com</string>
+    <string name="project_id" translatable="false">tldapp</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <!-- Show a splash screen on the activity. Automatically removed when
