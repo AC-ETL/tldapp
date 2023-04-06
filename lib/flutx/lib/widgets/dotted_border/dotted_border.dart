@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutx/widgets/dotted_border/dash_painter.dart';
 
-
 class DottedBorder extends StatelessWidget {
   final Widget child;
   final EdgeInsets padding;

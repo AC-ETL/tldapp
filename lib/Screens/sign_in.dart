@@ -1,9 +1,9 @@
 import 'package:dao/Screens/sign_up.dart';
 import 'package:dao/Screens/user_home_screen.dart';
+import 'package:dao/reusable_widgets/reusable_widget.dart';
 import 'package:dao/utils/color_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../reusable_widgets/reusable_widget.dart';
 import 'home_screen.dart';
 
 class SignInScreen extends StatefulWidget {

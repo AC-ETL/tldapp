@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\Projects-Repos\\tldapp\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-en-rIN\\values-en-rIN.xml",
+            "outputFile": "E:\\Projects-Repos\\tldapp - Copy\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-en-rIN\\values-en-rIN.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\AlliedC\\.gradle\\caches\\transforms-3\\f9d00c0ad06f3737f5584e3a1be6cac9\\transformed\\browser-1.4.0\\res\\values-en-rIN\\values-en-rIN.xml",
+                    "source": "C:\\Users\\AlliedC\\.gradle\\caches\\transforms-3\\193b6effb2c36f98177ce3d2427fc4b9\\transformed\\browser-1.4.0\\res\\values-en-rIN\\values-en-rIN.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\AlliedC\\.gradle\\caches\\transforms-3\\50ac565c2d78ece85381646878fcb457\\transformed\\core-1.9.0\\res\\values-en-rIN\\values-en-rIN.xml",
+                    "source": "C:\\Users\\AlliedC\\.gradle\\caches\\transforms-3\\8cd4c3d9351f0745427bccf8204cebcf\\transformed\\core-1.9.0\\res\\values-en-rIN\\values-en-rIN.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

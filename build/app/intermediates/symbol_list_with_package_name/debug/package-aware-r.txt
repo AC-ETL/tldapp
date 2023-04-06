@@ -1,4 +1,4 @@
-com.example.dao
+com.example.UIKit
 attr activityAction
 attr activityName
 attr alpha
@@ -247,7 +247,9 @@ layout notification_template_custom_big
 layout notification_template_icon_group
 layout notification_template_part_chronometer
 layout notification_template_part_time
+mipmap full_logo
 mipmap ic_launcher
+mipmap logo
 raw firebase_common_keep
 string common_google_play_services_enable_button
 string common_google_play_services_enable_text

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.dao"
-    android:versionCode="1"
-    android:versionName="1.0.0" >
+    package="com.acetl.tld"
+    android:versionCode="15"
+    android:versionName="11.0" >
 
     <uses-sdk
         android:minSdkVersion="21"
-        android:targetSdkVersion="33" />
+        android:targetSdkVersion="30" />
     <!--
-         The INTERNET permission is required for development. Specifically,
-         the Flutter tool needs it to communicate with the running application
+         Flutter needs it to communicate with the running application
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -26,21 +25,26 @@
     </queries>
 
     <permission
-        android:name="com.example.dao.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:name="com.acetl.tld.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.example.dao.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+    <uses-permission android:name="com.acetl.tld.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
         android:name="io.flutter.app.FlutterMultiDexApplication"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="dao" >
+        android:icon="@mipmap/logo"
+        android:label="DAO" >
+
+        <!-- Place your Google Map API KEY here at value -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="" />
+
         <activity
-            android:name="com.example.dao.MainActivity"
+            android:name="com.example.UIKit.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-            android:exported="true"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
@@ -55,6 +59,16 @@
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme" />
+            <!--
+                 Displays an Android View that continues showing the launch screen
+                 Drawable until Flutter paints its first frame, then this splash
+                 screen fades out. A splash screen is useful to avoid any visual
+                 gap between the end of Android's launch screen and the painting of
+                 Flutter's first frame.
+            -->
+            <meta-data
+                android:name="io.flutter.embedding.android.SplashScreenDrawable"
+                android:resource="@drawable/launch_background" />
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -99,7 +113,7 @@
 
         <provider
             android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
-            android:authorities="com.example.dao.flutter.image_provider"
+            android:authorities="com.acetl.tld.flutter.image_provider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data
@@ -153,7 +167,7 @@
 
         <provider
             android:name="com.google.firebase.provider.FirebaseInitProvider"
-            android:authorities="com.example.dao.firebaseinitprovider"
+            android:authorities="com.acetl.tld.firebaseinitprovider"
             android:directBootAware="true"
             android:exported="false"
             android:initOrder="100" />

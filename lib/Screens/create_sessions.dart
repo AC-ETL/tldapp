@@ -1,12 +1,19 @@
 // ignore_for_file: library_private_types_in_public_api, use_key_in_widget_constructors, deprecated_member_use, unnecessary_null_comparison, use_build_context_synchronously, prefer_const_constructors, avoid_init_to_null, unused_import, sort_child_properties_last
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dao/widgets/material/button/flutx_buttons_screen.dart';
+import 'package:dao/widgets/material/navigation/flutx_bottom_navigation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutx/flutx.dart';
+import '../theme/app_theme.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class CreateSessionPage extends StatefulWidget {
   @override
@@ -23,12 +30,15 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
   late File? _image;
   final picker = ImagePicker();
   bool isLoading = false;
+
+  late ThemeData theme;
   @override
   void initState() {
     // ignore: todo
     // TODO: implement initState
     super.initState();
     _image = null;
+    theme = AppTheme.theme;
   }
 
   Future getImage() async {
@@ -55,8 +65,8 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
             .split(',')
             .map((tag) => tag.trim())
             .toList();
-        final points = int.parse(_pointsController.text);
 
+        final points = int.parse(_pointsController.text);
         final sessionRef =
             FirebaseFirestore.instance.collection('sessions').doc();
 
@@ -83,7 +93,6 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Session created successfully')),
         );
-
         Navigator.pop(context);
       }
     } catch (e) {
@@ -103,9 +112,11 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
         .child('sessions')
         .child(sessionId)
         .child('session_image.jpg');
+
     if (_image != null) {
       await storageRef.putFile(_image!);
     }
+
     return await storageRef.getDownloadURL();
   }
 
@@ -124,9 +135,15 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Session'),
+        titleTextStyle: TextStyle(color: theme.hoverColor),
       ),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? Center(
+              child: LoadingAnimationWidget.prograssiveDots(
+                color: theme.primaryColor,
+                size: 100,
+              ),
+            )
           : SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -139,12 +156,26 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                         controller: _titleController,
                         decoration: InputDecoration(
                           labelText: 'Session Title',
+                          floatingLabelBehavior: FloatingLabelBehavior.auto,
+                          floatingLabelStyle:
+                              TextStyle(color: theme.primaryColor),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey.withOpacity(0.2),
+                              width: 1.0,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: theme.primaryColor,
+                              width: 1.0,
+                            ),
+                          ),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter points';
                           }
-
                           return null;
                         },
                       ),
@@ -154,6 +185,32 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                         controller: _startDateTimeController,
                         decoration: InputDecoration(
                           labelText: 'Start Date and Time',
+                          labelStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey,
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.grey.withOpacity(0.2),
+                                width: 1.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: theme.primaryColor, width: 1.0),
+                            // borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.red, width: 1.0),
+                            // borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.grey.withOpacity(0.2),
+                                width: 1.0),
+                            // borderRadius: BorderRadius.circular(10.0),
+                          ),
                         ),
                         validator: (value) {
                           if (value == null) {
@@ -172,13 +229,15 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                             final time = await showTimePicker(
                               context: context,
                               initialTime: TimeOfDay.fromDateTime(
-                                  currentValue ?? DateTime.now()),
+                                currentValue ?? DateTime.now(),
+                              ),
                             );
                             return DateTimeField.combine(date, time);
                           } else {
                             return currentValue;
                           }
                         },
+                        cursorColor: theme.primaryColor,
                       ),
                       SizedBox(height: 16.0),
                       DateTimeField(
@@ -186,6 +245,32 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                         controller: _endDateTimeController,
                         decoration: InputDecoration(
                           labelText: 'End Date and Time',
+                          labelStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey,
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.grey.withOpacity(0.2),
+                                width: 1.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: theme.primaryColor, width: 1.0),
+                            // borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.red, width: 1.0),
+                            // borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.grey.withOpacity(0.2),
+                                width: 1.0),
+                            // borderRadius: BorderRadius.circular(10.0),
+                          ),
                         ),
                         validator: (value) {
                           if (value == null) {
@@ -204,28 +289,65 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                             final time = await showTimePicker(
                               context: context,
                               initialTime: TimeOfDay.fromDateTime(
-                                  currentValue ?? DateTime.now()),
+                                currentValue ?? DateTime.now(),
+                              ),
                             );
                             return DateTimeField.combine(date, time);
                           } else {
                             return currentValue;
                           }
                         },
+                        cursorColor: theme.primaryColor,
                       ),
                       SizedBox(height: 16.0),
                       TextFormField(
                         controller: _skillsTagsController,
                         decoration: InputDecoration(
-                          labelText: 'Skills Tags (comma separated)',
+                          labelText: 'Skills Tags(comma seprated)',
+                          floatingLabelBehavior: FloatingLabelBehavior.auto,
+                          floatingLabelStyle:
+                              TextStyle(color: theme.primaryColor),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey.withOpacity(0.2),
+                              width: 1.0,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: theme.primaryColor,
+                              width: 1.0,
+                            ),
+                          ),
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter skills seprated with commas.';
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(height: 16.0),
                       TextFormField(
                         controller: _pointsController,
                         decoration: InputDecoration(
                           labelText: 'Points',
+                          floatingLabelBehavior: FloatingLabelBehavior.auto,
+                          floatingLabelStyle:
+                              TextStyle(color: theme.primaryColor),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey.withOpacity(0.2),
+                              width: 1.0,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: theme.primaryColor,
+                              width: 1.0,
+                            ),
+                          ),
                         ),
-                        keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter points';
@@ -240,16 +362,16 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                       ElevatedButton(
                         onPressed: getImage,
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.blue, // Background color
+                          primary: theme.primaryColor, // Background color
                           textStyle: TextStyle(
                             fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             // ignore: prefer_const_literals_to_create_immutables
                             children: [
                               Icon(Icons.image,
@@ -269,26 +391,25 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                         Image.file(_image!),
                         SizedBox(height: 16.0),
                       ],
-                      ElevatedButton(
-                        onPressed: _submit,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Create Session',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: _submit,
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              'Create Session',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: theme.primaryColor,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 12),
                           ),
                         ),
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 12),
-                        ),
-                      )
+                      ),
                     ],
                   ),
                 ),
