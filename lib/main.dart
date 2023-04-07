@@ -7,6 +7,7 @@ import 'package:dao/localizations/language.dart';
 import 'package:dao/provider/sessions_provider.dart';
 import 'package:dao/theme/app_notifier.dart';
 import 'package:dao/theme/app_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,7 +16,6 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
-  //You will need to initialize AppThemeNotifier class for theme changes.
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   AppTheme.init();
@@ -27,6 +27,15 @@ Future<void> main() async {
       child: MyApp(),
     ),
   ));
+}
+
+Future<Widget> checkUserLoggedIn() async {
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    return HomeScreen();
+  } else {
+    return SignInScreen();
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -57,9 +66,16 @@ class MyApp extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: Language.getLocales(),
-            // home: IntroScreen(),
-            // home: SplashScreen(),
-            home: HomeScreen(),
+            home: FutureBuilder<Widget>(
+              future: checkUserLoggedIn(),
+              builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                if (snapshot.hasData) {
+                  return snapshot.data!;
+                } else {
+                  return Container();
+                }
+              },
+            ),
             routes: {
               '/siguppage': (context) => SignUpScreen(),
               '/signin': (context) => const SignInScreen(),

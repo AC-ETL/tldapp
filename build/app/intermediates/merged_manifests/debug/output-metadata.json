@@ -4,7 +4,7 @@
     "type": "MERGED_MANIFESTS",
     "kind": "Directory"
   },
-  "applicationId": "com.acetl.tld",
+  "applicationId": "com.example.dao",
   "variantName": "debug",
   "elements": [
     {

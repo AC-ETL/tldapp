@@ -1,10 +1,12 @@
+import 'package:dao/Screens/home_Screen.dart';
 import 'package:dao/Screens/sign_up.dart';
 import 'package:dao/Screens/user_home_screen.dart';
 import 'package:dao/reusable_widgets/reusable_widget.dart';
 import 'package:dao/utils/color_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -16,6 +18,8 @@ class SignInScreen extends StatefulWidget {
 class _MyWidgetState extends State<SignInScreen> {
   final TextEditingController _passwordTextController = TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,6 +74,7 @@ class _MyWidgetState extends State<SignInScreen> {
                                   // print("error${error.toString()}")
                                 })
                       }),
+              googleUIButton(context, true, _handleGoogleSignUp),
 
               // This is Signuprow blow the login btn..
               signUpOption()
@@ -101,5 +106,34 @@ class _MyWidgetState extends State<SignInScreen> {
         )
       ],
     );
+  }
+
+  Future<void> _handleGoogleSignUp(BuildContext context) async {
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        final userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredential.user?.uid)
+            .set({
+          'email': userCredential.user?.email,
+          'Name': userCredential.user?.displayName,
+          'uid': userCredential.user?.uid,
+          "interest": ['Js', 'React', 'NextJs', 'Flutter']
+        });
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      }
+    } catch (error) {
+      print(error.toString());
+    }
   }
 }

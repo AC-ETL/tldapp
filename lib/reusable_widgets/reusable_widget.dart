@@ -78,7 +78,7 @@ Container googleUIButton(BuildContext context, bool islogin, Function onTap) {
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
     child: ElevatedButton(
       onPressed: () {
-        onTap();
+        onTap(context);
       },
       child: Text(
         islogin ? 'Google' : 'GitHub',

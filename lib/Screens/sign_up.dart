@@ -2,13 +2,17 @@
 // import 'package:firebase_signin/reusable_widgets/reusable_widget.dart';
 // import 'package:firebase_signin/screens/home_screen.dart';
 // import 'package:firebase_signin/utils/color_utils.dart';
+// ignore_for_file: unused_local_variable, unused_element
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dao/Screens/home_Screen.dart';
 import 'package:dao/Screens/sign_in.dart';
 import 'package:dao/model/session_data.dart';
 import 'package:dao/reusable_widgets/reusable_widget.dart';
 import 'package:dao/utils/color_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SignUpScreen extends StatefulWidget {
   SignUpScreen({Key? key}) : super(key: key);
@@ -22,6 +26,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _userNameTextController = TextEditingController();
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,9 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     });
                   },
                 ),
-                googleUIButton(context, true, () {
-                  // FirebaseAuth.instance.cre
-                })
+                googleUIButton(context, true, _handleGoogleSignUp),
               ],
             ),
           ))),
@@ -122,5 +127,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }).toList();
 
     // print("data   $data2");s
+  }
+
+  Future<void> _handleGoogleSignUp(BuildContext context) async {
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        final userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredential.user?.uid)
+            .set({
+          'email': userCredential.user?.email,
+          'Name': userCredential.user?.displayName,
+          'uid': userCredential.user?.uid,
+          "interest": ['Js', 'React', 'NextJs', 'Flutter']
+        });
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      }
+    } catch (error) {
+      print(error.toString());
+    }
   }
 }

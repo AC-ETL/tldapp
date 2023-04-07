@@ -13,9 +13,14 @@
         android:label="DAO"
         android:icon="@mipmap/logo">
 
+        <meta-data
+                   android:name="com.google.android.gms.version"
+                   android:value="@integer/google_play_services_version" />
+
         <!-- Place your Google Map API KEY here at value -->
         <meta-data android:name="com.google.android.geo.API_KEY"
                    android:value=""/>
+
 
         <activity
             android:name=".MainActivity"
