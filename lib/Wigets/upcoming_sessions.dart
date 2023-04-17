@@ -50,7 +50,7 @@ class _UpCommingSessionsState extends State<UpCommingSessions> {
     // Here we accessing the method who return the all sessions data
 
     return sessions.isEmpty
-        ? const Text('data')
+        ? const Text('')
         : Column(
             children: [
               SizedBox(

@@ -1,8 +1,9 @@
-// ignore_for_file: library_private_types_in_public_api, use_key_in_widget_constructors, deprecated_member_use, unnecessary_null_comparison, use_build_context_synchronously, prefer_const_constructors, avoid_init_to_null, unused_import, sort_child_properties_last
+// ignore_for_file: library_private_types_in_public_api, use_key_in_widget_constructors, deprecated_member_use, unnecessary_null_comparison, use_build_context_synchronously, prefer_const_constructors, avoid_init_to_null, unused_import, sort_child_properties_last, unused_element, unused_local_variable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dao/widgets/material/button/flutx_buttons_screen.dart';
 import 'package:dao/widgets/material/navigation/flutx_bottom_navigation_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -14,6 +15,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:flutx/flutx.dart';
 import '../theme/app_theme.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class CreateSessionPage extends StatefulWidget {
   @override
@@ -30,6 +32,8 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
   late File? _image;
   final picker = ImagePicker();
   bool isLoading = false;
+  List<String> allSkills = [];
+  List<String> selectedSkills = [];
 
   late ThemeData theme;
   @override
@@ -39,6 +43,13 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
     super.initState();
     _image = null;
     theme = AppTheme.theme;
+
+    getSkillsList().then((skillsList) {
+      setState(() {
+        allSkills = skillsList;
+        print(allSkills);
+      });
+    });
   }
 
   Future getImage() async {
@@ -51,6 +62,19 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
     });
   }
 
+  /// Function to get the current Firebase user
+  Future<User> getCurrentFirebaseUser() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? currentUser = auth.currentUser;
+    if (currentUser != null) {
+      // If there is a currently signed in user
+      return currentUser;
+    } else {
+      // If no user is signed in
+      throw Exception('No user is currently signed in.');
+    }
+  }
+
   void _submit() async {
     setState(() {
       isLoading = true;
@@ -61,31 +85,40 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
         final title = _titleController.text;
         final startDateTime = DateTime.parse(_startDateTimeController.text);
         final endDateTime = DateTime.parse(_endDateTimeController.text);
-        final skillsTags = _skillsTagsController.text
-            .split(',')
-            .map((tag) => tag.trim())
-            .toList();
 
+        // final skillsTags = _skillsTagsController.text
+        //     .split(',')
+        //     .map((tag) => tag.trim())
+        //     .toList();
+
+        final skillsTags = selectedSkills;
         final points = int.parse(_pointsController.text);
         final sessionRef =
             FirebaseFirestore.instance.collection('sessions').doc();
 
+        final User user = await getCurrentFirebaseUser();
         if (_image != null) {
           final imageUrl = await uploadImageToFirebaseStorage(sessionRef.id);
           await sessionRef.set({
+            'approve': false,
+            'instructor': user.uid,
+            'students': [],
             'title': title,
-            'startDateTime': startDateTime.toIso8601String(),
-            'endDateTime': endDateTime.toIso8601String(),
-            'skillsTags': skillsTags,
+            'startTime': startDateTime,
+            'endtTime': endDateTime,
+            'tags': skillsTags,
             'points': points,
             'imageUrl': imageUrl,
           });
         } else {
           await sessionRef.set({
+            'approve': false,
+            'instructor': user.uid,
+            'students': [],
             'title': title,
-            'startDateTime': startDateTime.toIso8601String(),
-            'endDateTime': endDateTime.toIso8601String(),
-            'skillsTags': skillsTags,
+            'startTime': startDateTime,
+            'endtTime': endDateTime,
+            'tags': skillsTags,
             'points': points,
           });
         }
@@ -120,6 +153,14 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
     return await storageRef.getDownloadURL();
   }
 
+  Future<List<String>> getSkillsList() async {
+    final skillsCollection = FirebaseFirestore.instance.collection('skills');
+    final snapshot = await skillsCollection.get();
+    final skillsList =
+        snapshot.docs.map((doc) => doc['name'].toString()).toList();
+    return skillsList;
+  }
+
   @override
   void dispose() {
     _titleController.dispose();
@@ -128,6 +169,28 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
     _skillsTagsController.dispose();
     _pointsController.dispose();
     super.dispose();
+  }
+
+  MultiSelectDialogField<String> _buildMultiSelectDialogField() {
+    return MultiSelectDialogField(
+      items: allSkills.map((skill) => MultiSelectItem(skill, skill)).toList(),
+      title: Text("Select Skills"),
+      buttonText: Text("Select Skills"),
+      onConfirm: (values) {
+        setState(() {
+          selectedSkills = values;
+        });
+        print(selectedSkills);
+      },
+      chipDisplay: MultiSelectChipDisplay(
+        onTap: (value) {
+          setState(() {
+            selectedSkills.remove(value);
+            print(selectedSkills);
+          });
+        },
+      ),
+    );
   }
 
   @override
@@ -301,34 +364,6 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                       ),
                       SizedBox(height: 16.0),
                       TextFormField(
-                        controller: _skillsTagsController,
-                        decoration: InputDecoration(
-                          labelText: 'Skills Tags(comma seprated)',
-                          floatingLabelBehavior: FloatingLabelBehavior.auto,
-                          floatingLabelStyle:
-                              TextStyle(color: theme.primaryColor),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey.withOpacity(0.2),
-                              width: 1.0,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: theme.primaryColor,
-                              width: 1.0,
-                            ),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter skills seprated with commas.';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: 16.0),
-                      TextFormField(
                         controller: _pointsController,
                         decoration: InputDecoration(
                           labelText: 'Points',
@@ -357,6 +392,28 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                           }
                           return null;
                         },
+                      ),
+                      SizedBox(height: 16.0),
+                      MultiSelectDialogField<String>(
+                        items: allSkills
+                            .map((skill) => MultiSelectItem(skill, skill))
+                            .toList(),
+                        title: Text("Select Skills"),
+                        buttonText: Text("Select Skills"),
+                        onConfirm: (values) {
+                          setState(() {
+                            selectedSkills = values;
+                          });
+                          print(selectedSkills);
+                        },
+                        chipDisplay: MultiSelectChipDisplay(
+                          onTap: (value) {
+                            setState(() {
+                              selectedSkills.remove(value);
+                              print(selectedSkills);
+                            });
+                          },
+                        ),
                       ),
                       SizedBox(height: 16.0),
                       ElevatedButton(
