@@ -20,7 +20,7 @@ class UserHomeScreen extends StatefulWidget {
 }
 
 class _UserHomeScreenState extends State<UserHomeScreen> {
-  final String _appBartitle = 'UserHomePage';
+  final String _appBartitle = 'Sessions';
 
   var selectedItem = '';
 
@@ -28,7 +28,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        // shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(20)),
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
         elevation: 2,
@@ -49,7 +49,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             return [
               PopupMenuItem(
                 child: Text("SignUp"),
-                 value: '/siguppage',
+                value: '/siguppage',
                 onTap: () {
                   //    fetchData();
                 },
@@ -79,8 +79,6 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             ),
             FeaturedMentors('My Mentors'),
             MyMentors(),
-            Skills(false, 'Interested Skills'),
-            Skills(true, 'Recommended Skills'),
             UpCommingSessions(
               'Recommended Sessions',
               'Sign Up to one of our sessions and start your journey',

@@ -10,6 +10,7 @@ import 'package:dao/Wigets/skills.dart';
 import 'package:dao/Wigets/upcoming_sessions.dart';
 import 'package:dao/model/session_data.dart';
 import 'package:dao/model/skills.dart';
+import 'package:dao/utils/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:dao/sign_in.dart';
 // import 'package:dao/utils/color_utils.dart';
@@ -22,6 +23,7 @@ class HomeScreen extends StatefulWidget {
   //  Iniialls colors
   List<SessioinsData> sessioinsData = [];
   List<SkillData> skillData = [];
+  List<Map<String, dynamic>> featuredUsers = [];
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -63,10 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 25,
                 ),
                 const HeroInfo(),
-                Skills(
-                  true,
-                  'In-Demand Skills',
-                ),
+                Skills(),
                 UpCommingSessions(
                   'Up Comming Sessions',
                   'SignUp to our sessions and start your journey',
@@ -81,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  fetchCurrentUser() {
+  fetchCurrentUser() async {
     final UserEmail = FirebaseAuth.instance.currentUser?.email;
     final UserUid = FirebaseAuth.instance.currentUser?.uid;
     print('>>>>>>>>>Home<<<<<<<<$UserEmail');

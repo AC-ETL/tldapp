@@ -2,6 +2,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dao/Screens/create_sessions.dart';
+import 'package:dao/Screens/notifications_page.dart';
+import 'package:dao/Screens/sessions.dart';
+import 'package:dao/Screens/settings_page.dart';
+import 'package:dao/Screens/update_page.dart';
 import 'package:dao/Screens/user_data.dart';
 import 'package:dao/Screens/user_home_screen.dart';
 import 'package:dao/Screens/user_profile.dart';
@@ -68,8 +72,9 @@ class _AppDrawerState extends State<AppDrawer> {
               CircleAvatar(
                 radius: 52,
                 // Here we showing the data condittionally to profile image.............
-                backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80.png'),
+                backgroundImage:
+                    AssetImage("assets/images/profile/avatar_place.png"),
+
                 // backgroundImage: Image.asset(),
               ),
               SizedBox(
@@ -126,7 +131,7 @@ class _AppDrawerState extends State<AppDrawer> {
 
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => UserHomeScreen()),
+                  MaterialPageRoute(builder: (context) => SessionsPage()),
                 );
               },
             ),
@@ -144,22 +149,34 @@ class _AppDrawerState extends State<AppDrawer> {
               leading: const Icon(Icons.update),
               title: const Text('Updates'),
               onTap: () => {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const UserDate()))
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const UpdatesPage()))
               },
             ),
             ListTile(
               leading: const Icon(Icons.notification_add_outlined),
               title: const Text('Notifications'),
-              onTap: () => {print('Notifications')},
+              onTap: () => {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const NotificationsPage()))
+              },
             ),
             const Divider(
               color: Colors.black,
             ),
             ListTile(
-              leading: const Icon(Icons.settings_outlined),
+              leading: const Icon(Icons.notification_add_outlined),
               title: const Text('Settings'),
-              onTap: () => {print('Settings')},
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsPage()),
+                )
+              },
             ),
             ListTile(
               leading: const Icon(Icons.logout_outlined),

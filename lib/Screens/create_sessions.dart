@@ -16,6 +16,7 @@ import 'package:flutx/flutx.dart';
 import '../theme/app_theme.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class CreateSessionPage extends StatefulWidget {
   @override
@@ -29,6 +30,10 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
   final _endDateTimeController = TextEditingController();
   final _skillsTagsController = TextEditingController();
   final _pointsController = TextEditingController();
+
+  RoundedLoadingButtonController _btnController =
+      RoundedLoadingButtonController();
+
   late File? _image;
   final picker = ImagePicker();
   bool isLoading = false;
@@ -52,115 +57,6 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
     });
   }
 
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      }
-    });
-  }
-
-  /// Function to get the current Firebase user
-  Future<User> getCurrentFirebaseUser() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? currentUser = auth.currentUser;
-    if (currentUser != null) {
-      // If there is a currently signed in user
-      return currentUser;
-    } else {
-      // If no user is signed in
-      throw Exception('No user is currently signed in.');
-    }
-  }
-
-  void _submit() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    try {
-      if (_formKey.currentState!.validate()) {
-        final title = _titleController.text;
-        final startDateTime = DateTime.parse(_startDateTimeController.text);
-        final endDateTime = DateTime.parse(_endDateTimeController.text);
-
-        // final skillsTags = _skillsTagsController.text
-        //     .split(',')
-        //     .map((tag) => tag.trim())
-        //     .toList();
-
-        final skillsTags = selectedSkills;
-        final points = int.parse(_pointsController.text);
-        final sessionRef =
-            FirebaseFirestore.instance.collection('sessions').doc();
-
-        final User user = await getCurrentFirebaseUser();
-        if (_image != null) {
-          final imageUrl = await uploadImageToFirebaseStorage(sessionRef.id);
-          await sessionRef.set({
-            'approve': false,
-            'instructor': user.uid,
-            'students': [],
-            'title': title,
-            'startTime': startDateTime,
-            'endtTime': endDateTime,
-            'tags': skillsTags,
-            'points': points,
-            'imageUrl': imageUrl,
-          });
-        } else {
-          await sessionRef.set({
-            'approve': false,
-            'instructor': user.uid,
-            'students': [],
-            'title': title,
-            'startTime': startDateTime,
-            'endtTime': endDateTime,
-            'tags': skillsTags,
-            'points': points,
-          });
-        }
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Session created successfully')),
-        );
-        Navigator.pop(context);
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error creating session: $e')),
-      );
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  Future<String> uploadImageToFirebaseStorage(String sessionId) async {
-    final storageRef = FirebaseStorage.instance
-        .ref()
-        .child('sessions')
-        .child(sessionId)
-        .child('session_image.jpg');
-
-    if (_image != null) {
-      await storageRef.putFile(_image!);
-    }
-
-    return await storageRef.getDownloadURL();
-  }
-
-  Future<List<String>> getSkillsList() async {
-    final skillsCollection = FirebaseFirestore.instance.collection('skills');
-    final snapshot = await skillsCollection.get();
-    final skillsList =
-        snapshot.docs.map((doc) => doc['name'].toString()).toList();
-    return skillsList;
-  }
-
   @override
   void dispose() {
     _titleController.dispose();
@@ -171,34 +67,12 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
     super.dispose();
   }
 
-  MultiSelectDialogField<String> _buildMultiSelectDialogField() {
-    return MultiSelectDialogField(
-      items: allSkills.map((skill) => MultiSelectItem(skill, skill)).toList(),
-      title: Text("Select Skills"),
-      buttonText: Text("Select Skills"),
-      onConfirm: (values) {
-        setState(() {
-          selectedSkills = values;
-        });
-        print(selectedSkills);
-      },
-      chipDisplay: MultiSelectChipDisplay(
-        onTap: (value) {
-          setState(() {
-            selectedSkills.remove(value);
-            print(selectedSkills);
-          });
-        },
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Session'),
-        titleTextStyle: TextStyle(color: theme.hoverColor),
+        titleTextStyle: TextStyle(color: Colors.black),
       ),
       body: isLoading
           ? Center(
@@ -419,7 +293,7 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                       ElevatedButton(
                         onPressed: getImage,
                         style: ElevatedButton.styleFrom(
-                          primary: theme.primaryColor, // Background color
+                          primary: Colors.teal.shade700, // Background color
                           textStyle: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
@@ -449,29 +323,155 @@ class _CreateSessionPageState extends State<CreateSessionPage> {
                         SizedBox(height: 16.0),
                       ],
                       Center(
-                        child: ElevatedButton(
-                          onPressed: _submit,
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text(
-                              'Create Session',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: theme.primaryColor,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 12),
+                        child: RoundedLoadingButton(
+                          controller: _btnController,
+                          borderRadius: 20,
+                          color: Colors.teal.shade700,
+                          onPressed: () async {
+                            _submit();
+                            _btnController.stop();
+                          },
+                          child: Text(
+                            'Create Session',
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),
               ),
             ),
     );
+  }
+
+  MultiSelectDialogField<String> _buildMultiSelectDialogField() {
+    return MultiSelectDialogField(
+      items: allSkills.map((skill) => MultiSelectItem(skill, skill)).toList(),
+      title: Text("Select Skills"),
+      buttonText: Text("Select Skills"),
+      onConfirm: (values) {
+        setState(() {
+          selectedSkills = values;
+        });
+        print(selectedSkills);
+      },
+      chipDisplay: MultiSelectChipDisplay(
+        onTap: (value) {
+          setState(() {
+            selectedSkills.remove(value);
+            print(selectedSkills);
+          });
+        },
+      ),
+    );
+  }
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      }
+    });
+  }
+
+  /// Function to get the current Firebase user
+  Future<User> getCurrentFirebaseUser() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? currentUser = auth.currentUser;
+    if (currentUser != null) {
+      // If there is a currently signed in user
+      return currentUser;
+    } else {
+      // If no user is signed in
+      throw Exception('No user is currently signed in.');
+    }
+  }
+
+  void _submit() async {
+    // setState(() {
+    //   isLoading = true;
+    // });
+
+    try {
+      if (_formKey.currentState!.validate()) {
+        final title = _titleController.text;
+        final startDateTime = DateTime.parse(_startDateTimeController.text);
+        final endDateTime = DateTime.parse(_endDateTimeController.text);
+
+        final skillsTags = selectedSkills;
+        final points = int.parse(_pointsController.text);
+        final sessionRef =
+            FirebaseFirestore.instance.collection('sessions').doc();
+
+        final User user = await getCurrentFirebaseUser();
+        if (_image != null) {
+          final imageUrl = await uploadImageToFirebaseStorage(sessionRef.id);
+          await sessionRef.set({
+            'approve': false,
+            'instructor': user.uid,
+            'students': [],
+            'title': title,
+            'startTime': startDateTime,
+            'endtTime': endDateTime,
+            'tags': skillsTags,
+            'points': points,
+            'imageUrl': imageUrl,
+            'description': "No description",
+          });
+        } else {
+          await sessionRef.set({
+            'approve': false,
+            'instructor': user.uid,
+            'students': [],
+            'title': title,
+            'startTime': startDateTime,
+            'endtTime': endDateTime,
+            'tags': skillsTags,
+            'points': points,
+            'description': "No description",
+          });
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Session created successfully')),
+        );
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error creating session: $e')),
+      );
+    } finally {
+      // setState(() {
+      //   isLoading = false;
+      //   _btnController.stop();
+      // });
+      _btnController.stop();
+    }
+  }
+
+  Future<String> uploadImageToFirebaseStorage(String sessionId) async {
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('sessions')
+        .child(sessionId)
+        .child('session_image.jpg');
+
+    if (_image != null) {
+      await storageRef.putFile(_image!);
+    }
+
+    return await storageRef.getDownloadURL();
+  }
+
+  Future<List<String>> getSkillsList() async {
+    final skillsCollection = FirebaseFirestore.instance.collection('skills');
+    final snapshot = await skillsCollection.get();
+    final skillsList =
+        snapshot.docs.map((doc) => doc['name'].toString()).toList();
+    return skillsList;
   }
 }

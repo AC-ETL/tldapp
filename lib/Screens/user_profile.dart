@@ -19,7 +19,7 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  final String imgurl =
+  String imgurl =
       'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80.png';
   final double coverHeight = 200;
   final double profileImageHeight = 144;
@@ -199,8 +199,11 @@ class _UserProfileState extends State<UserProfile> {
               },
             ),
             InkWell(
-              child: Text('My Schedule',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              child: Center(
+                child: Text('My Schedule',
+                    style:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              ),
               onTap: () {
                 setState(() {
                   AboutV = false;
@@ -247,6 +250,7 @@ class _UserProfileState extends State<UserProfile> {
         setState(() {
           // Here  im seting the data to class variable userData
           userProfileData = ds.data();
+          imgurl = userProfileData!["summry"]["image"];
         });
         print(userProfileData?['email']);
       }).catchError((e) {

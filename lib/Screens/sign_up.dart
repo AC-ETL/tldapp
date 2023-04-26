@@ -140,7 +140,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 'displayName': value.user?.displayName,
                                 'email': value.user?.email,
                                 'image': value.user?.photoURL,
-                              }
+                              },
+                              "points": {
+                                "learningPoint": 100,
+                                "coachingPoint": 100,
+                              },
+                              "followers": [],
+                              "following": [],
+                              "learning": [],
                             },
                           );
                           print('UserdataSubmit');
@@ -255,7 +262,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             'displayName': userCredential.user?.displayName,
             'email': userCredential.user?.email,
             'image': userCredential.user?.photoURL,
-          }
+          },
         });
 
         Navigator.push(

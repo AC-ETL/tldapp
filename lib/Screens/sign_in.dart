@@ -109,7 +109,7 @@ class _MyWidgetState extends State<SignInScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => UserHomeScreen(),
+                          builder: (context) => HomeScreen(),
                         ),
                       );
                     } on FirebaseAuthException catch (e) {
