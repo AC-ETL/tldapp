@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_declarations
+
 import 'package:flutter/material.dart';
 
 final primaryColor = Color(0xffF8FBFE);
@@ -17,7 +19,7 @@ final kCard = Color(0xffF4F4F4);
 final String _title = 'Learning DAO';
 
 final coustomAppBar = AppBar(
-  shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(20)),
+  // shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(20)),
   iconTheme: const IconThemeData(color: Colors.black),
   backgroundColor: Colors.white,
   elevation: 2,

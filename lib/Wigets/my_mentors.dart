@@ -1,58 +1,47 @@
+import 'package:dao/utils/firebase.dart';
 import 'package:flutter/material.dart';
 import './app_style.dart';
 import '../model/mentors.dart';
-import 'package:intl/intl.dart';
 import './size_config.dart';
 
-class MyMentors extends StatelessWidget {
+class MyMentors extends StatefulWidget {
+  @override
+  State<MyMentors> createState() => _MyMentorsState();
+}
+
+class _MyMentorsState extends State<MyMentors> {
+  final ApiService _apiService = ApiService();
+
+  List<Map<String, dynamic>> _featuredUsers = [];
+
+  final List<Mentors> _allFeaturedMentors = [];
   //  This is Array or list of Mentors data whichs we used Display..
-  final List<Mentors> _allMentors = [
-    Mentors(
-      id: 'm1',
-      name: 'Holly Fax',
-      workingHours: 23,
-      workingfield: 'Graphic Designer',
-      imgurl:
-          'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80.png',
-      date: DateTime.utc(2023),
-    ),
-    Mentors(
-      id: 'm2',
-      name: 'Valerie Fax',
-      workingHours: 23,
-      workingfield: 'Graphic Designer',
-      imgurl:
-          'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80.png',
-      date: DateTime.utc(2023),
-    ),
-    Mentors(
-        id: 'm3',
-        name: 'James Dean',
-        workingHours: 23,
-        workingfield: 'Graphic Designer',
-        date: DateTime.utc(2023),
-        imgurl:
-            'https://images.unsplash.com/photo-1639747280804-dd2d6b3d88ac?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80.png'),
-    Mentors(
-        id: 'm4',
-        name: ' Tom Jones',
-        workingHours: 23,
-        workingfield: 'Graphic Designer',
-        date: DateTime.utc(2023),
-        imgurl:
-            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80'),
-    Mentors(
-        id: 'm5',
-        name: 'Arien Fench',
-        workingHours: 23,
-        workingfield: 'Graphic Designer',
-        date: DateTime.utc(2023),
-        imgurl:
-            'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=388&q=80')
-  ];
+  List<Mentors> _allMentors = [];
 
   @override
   Widget build(BuildContext context) {
+    _apiService.getUsers(true).then((users) {
+      setState(() {
+        _featuredUsers = users;
+      });
+      _featuredUsers.forEach((element) {
+        _allFeaturedMentors.add(Mentors(
+            name: element["summry"]["displayName"],
+            workingHours: 200,
+            workingfield: element["interest"].toString(),
+            date: DateTime.utc(2023),
+            imgurl: element["summry"]["image"],
+            id: element["id"]));
+        print(element);
+      });
+    }).catchError((error) {
+      print('Error fetching users: $error');
+    });
+
+    setState(() {
+      _allMentors = _allFeaturedMentors;
+    });
+
     return Container(
       height: 180,
       child: ListView.builder(
@@ -66,7 +55,7 @@ class MyMentors extends StatelessWidget {
                 left: index == 0 ? 18 : 15, right: index == 5 - 1 ? 18 : 0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kBorderRadus),
-              color: Colors.amber,
+              color: Colors.grey.shade200,
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage('${_allMentors[index].imgurl}'),
@@ -82,46 +71,32 @@ class MyMentors extends StatelessWidget {
                       color: primaryColor,
                     ),
                   ),
-                  Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 50, left: 5),
-                            child: Text(
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
                               '${_allMentors[index].name}',
-                              style: TextStyle(color: primaryColor),
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(right: 40, bottom: 3),
-                            child: Text(
-                              '${_allMentors[index].workingfield}',
                               style:
-                                  TextStyle(color: primaryColor, fontSize: 8),
+                                  TextStyle(color: primaryColor, fontSize: 12),
                             ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${_allMentors[index].workingHours}',
-                            style: TextStyle(color: primaryColor, fontSize: 8),
-                          ),
-                          SizedBox(
-                            height: 2,
-                          ),
-                          Text(
-                              '${DateFormat.yMd().format(_allMentors[index].date)}',
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              '${_allMentors[index].workingHours.toInt()}',
                               style:
-                                  TextStyle(color: primaryColor, fontSize: 8)),
-                        ],
-                      ),
-                    ],
+                                  TextStyle(color: primaryColor, fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   )
                 ]),
           );

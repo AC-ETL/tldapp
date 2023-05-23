@@ -1,6 +1,7 @@
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_signin/screens/signin_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// ignore_for_file: must_be_immutable, use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_constructors, file_names, avoid_unnecessary_containers, non_constant_identifier_names, avoid_print
+
 import 'package:dao/Wigets/drawer.dart';
 import 'package:dao/Wigets/featured_mentors.dart';
 import 'package:dao/Wigets/hero_info.dart';
@@ -9,27 +10,26 @@ import 'package:dao/Wigets/skills.dart';
 import 'package:dao/Wigets/upcoming_sessions.dart';
 import 'package:dao/model/session_data.dart';
 import 'package:dao/model/skills.dart';
+import 'package:dao/utils/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:dao/sign_in.dart';
 // import 'package:dao/utils/color_utils.dart';
 import 'package:flutter/material.dart';
 import '../Wigets/hero.dart';
-import '../Wigets/upcoming_sessions.dart';
 import '../Wigets/app_style.dart';
-
 // This main screen after login....
 
 class HomeScreen extends StatefulWidget {
   //  Iniialls colors
   List<SessioinsData> sessioinsData = [];
   List<SkillData> skillData = [];
+  List<Map<String, dynamic>> featuredUsers = [];
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  
   @override
   initState() {
     super.initState();
@@ -65,16 +65,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 25,
                 ),
                 const HeroInfo(),
-                Skills(
-                  true,
-                  'In-Demand Skills',
-                ),
+                Skills(),
                 UpCommingSessions(
                   'Up Comming Sessions',
                   'SignUp to our sessions and start your journey',
                   true,
                   true,
-                )
+                ),
               ],
             ),
           ),
@@ -83,12 +80,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-fetchCurrentUser(){
-   final UserEmail=  FirebaseAuth.instance.currentUser?.email;
-   final UserUid=  FirebaseAuth.instance.currentUser?.uid;
-   print('>>>>>>>>>Home<<<<<<<<$UserEmail');
-   print('>>>>>>>>>Home<<<<<<<<$UserUid');
-}
+  fetchCurrentUser() async {
+    final UserEmail = FirebaseAuth.instance.currentUser?.email;
+    final UserUid = FirebaseAuth.instance.currentUser?.uid;
+    print('>>>>>>>>>Home<<<<<<<<$UserEmail');
+    print('>>>>>>>>>Home<<<<<<<<$UserUid');
+  }
 //   fetchData() async {
 //     var data = FirebaseFirestore.instance.collection("sessions").snapshots();
 //     data.map((value) {
@@ -121,6 +118,4 @@ fetchCurrentUser(){
 //       });
 //     }).toList();
 //   }
-
-
 }
